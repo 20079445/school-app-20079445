@@ -1,3 +1,3 @@
 package model
 
-data class student()
+data class student(val name: String)

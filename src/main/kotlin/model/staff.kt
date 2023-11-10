@@ -1,3 +1,3 @@
 package model
 
-data class staff()
+data class staff(val name: String)
