@@ -1,12 +1,16 @@
 package controller
 
+import model.Grade
 import model.Staff
 import model.Student
+import model.Teacher
 import persistence.Serializer
 
 class SchoolAPI(serializerType: Serializer) {
     private var students = ArrayList<Student>()
     private var staffs = ArrayList<Staff>()
+    private var grades = ArrayList<Grade>()
+    private var teachers = ArrayList<Teacher>()
     private var serializer: Serializer = serializerType
 
     private fun formatListStudentString(notesToFormat: List<Student>): String =
@@ -26,6 +30,14 @@ class SchoolAPI(serializerType: Serializer) {
 
     fun addStaff(staff: Staff): Boolean{
         return staffs.add(staff)
+    }
+
+    fun addGrade(grade: Grade): Boolean{
+        return grades.add(grade)
+    }
+
+    fun addTeacher(teacher: Teacher): Boolean{
+        return teachers.add(teacher)
     }
 
     fun listAllStudents(): String{

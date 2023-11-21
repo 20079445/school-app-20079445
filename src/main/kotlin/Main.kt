@@ -1,6 +1,8 @@
 import controller.SchoolAPI
+import model.Grade
 import model.Staff
 import model.Student
+import model.Teacher
 import mu.KotlinLogging
 import persistence.XMLSerializer
 import utils.ScannerInput.readNextInt
@@ -148,8 +150,7 @@ fun addStudent(){
     val studentRecord = readNextLine("Enter the students records: ")
 
     val isAdded : Boolean = schoolAPI.addStudent(Student(studentName, studentId, studentYear,
-                                        studentAddress, studentRecord)
-    )
+                                        studentAddress, studentRecord))
     if (isAdded){
         println("Student added successfully")
     } else{
@@ -158,11 +159,35 @@ fun addStudent(){
 }
 
 fun addGrades(){
+    val English = readNextInt("Enter the students grade for English: ")
+    val Maths = readNextInt("Enter the students grade for Maths: ")
+    val Geography = readNextInt("Enter the students grade for Geography: ")
+    val History = readNextInt("Enter the students grade for History: ")
+    val Civics = readNextInt("Enter the students grade for Civics: ")
+    val Irish = readNextInt("Enter the students grade for Irish: ")
 
+    val isAdded : Boolean = schoolAPI.addGrade(Grade(English, Maths, Geography,
+        History, Civics, Irish))
+
+    if (isAdded){
+        println("Grades added successfully")
+    } else{
+        println("Failed to add Grade entries")
+    }
 }
 
 fun addTeacher(){
+    val subjectsTeaching = readNextLine("Enter the subjects this teacher teaches: ")
+    val classroomNumber = readNextInt("Enter their classroom number: ")
+    val yearsWithTheSchool = readNextInt("Enter the number of years with the school: ")
 
+    val isAdded : Boolean = schoolAPI.addTeacher(Teacher(subjectsTeaching, classroomNumber, yearsWithTheSchool))
+
+    if (isAdded){
+        println("Teacher added successfully")
+    } else{
+        println("Failed to add Teacher details")
+    }
 }
 
 fun listStaff(){
