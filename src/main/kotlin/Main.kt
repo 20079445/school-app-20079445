@@ -42,6 +42,7 @@ fun runMenu() {
         when (option) {
             1 -> add()
             2 -> list()
+            3 -> count()
             20 -> save()
             21 -> load()
             0 -> exitApp()
@@ -91,6 +92,30 @@ fun list(){
             2 -> listStudent()
             3 -> listGrade()
             4 -> listTeacher()
+            else -> println("Invalid option entered: $option");
+        }
+    } else {
+        println("Option Invalid - No notes stored");
+    }
+}
+
+fun count(){
+    if (1 > 0) {
+        val option = readNextInt(
+            """
+                  > --------------------------------
+                 > |   1)   Count Staff details    |
+                 > |   2)   Count Student details  |
+                 > |   3)   Count student grades   |
+                 > |   4)   Count Teacher details  |
+                  > --------------------------------
+         > ==>> """.trimMargin(">"))
+
+        when (option) {
+            1 -> countStaff()
+            2 -> countStudent()
+            3 -> countGrade()
+            4 -> countTeacher()
             else -> println("Invalid option entered: $option");
         }
     } else {
@@ -153,6 +178,22 @@ fun listGrade(){
 }
 
 fun listTeacher(){
+
+}
+
+fun countStaff(){
+    println(schoolAPI.countAllStaff())
+}
+
+fun countStudent(){
+    println(schoolAPI.countAllStudent())
+}
+
+fun countGrade(){
+
+}
+
+fun countTeacher(){
 
 }
 
