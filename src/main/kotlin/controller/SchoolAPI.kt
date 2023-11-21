@@ -38,6 +38,14 @@ class SchoolAPI(serializerType: Serializer) {
         else formatListStaffString(staffs)
     }
 
+    fun countAllStaff(): Int{
+        return staffs.size
+    }
+
+    fun countAllStudent(): Int{
+        return students.size
+    }
+
     @Throws(Exception::class)
     fun load() {
         students = serializer.read() as ArrayList<Student>
