@@ -1,4 +1,3 @@
-
 import controller.SchoolAPI
 import model.Staff
 import model.Student
