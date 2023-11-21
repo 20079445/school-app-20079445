@@ -6,12 +6,12 @@ import model.Student
 import model.Teacher
 import persistence.Serializer
 
-class SchoolAPI(serializerType: Serializer) {
+class SchoolAPI(serializerType: Serializer<Any?>) {
     private var students = ArrayList<Student>()
     private var staffs = ArrayList<Staff>()
     private var grades = ArrayList<Grade>()
     private var teachers = ArrayList<Teacher>()
-    private var serializer: Serializer = serializerType
+    private var serializer: Serializer<Any?> = serializerType
 
     private fun formatListStudentString(entryToFormat: List<Student>): String =
         entryToFormat.joinToString(separator = "\n") { student ->
@@ -87,14 +87,14 @@ class SchoolAPI(serializerType: Serializer) {
     }
 
     @Throws(Exception::class)
-    fun load() {
-        students = serializer.read() as ArrayList<Student>
+    fun <T> load(Class: Class<T>) {
+        val data = serializer.read() as List<T>
+        students = ArrayList(data)
     }
 
-
     @Throws(Exception::class)
-    fun store() {
-        serializer.write(students)
+    fun <T> store(data: List<T>) {
+        serializer.write(data)
     }
 }
 

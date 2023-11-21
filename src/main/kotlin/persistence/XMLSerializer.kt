@@ -10,7 +10,7 @@ import java.io.FileReader
 import java.io.FileWriter
 import java.lang.Exception
 
-class XMLSerializer(private val file: File) : Serializer {
+class XMLSerializer(private val file: File) : Serializer<Any?> {
 
     @Throws(Exception::class)
     override fun read(): Any {

@@ -1,6 +1,6 @@
 package persistence
 
-interface Serializer {
+interface Serializer<T> {
     @Throws(Exception::class)
     fun write(obj: Any?)
 
