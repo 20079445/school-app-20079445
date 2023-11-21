@@ -180,8 +180,11 @@ fun addTeacher(){
     val subjectsTeaching = readNextLine("Enter the subjects this teacher teaches: ")
     val classroomNumber = readNextInt("Enter their classroom number: ")
     val yearsWithTheSchool = readNextInt("Enter the number of years with the school: ")
+    val title = readNextLine("Enter the teachers official job title: ")
+    val childSafety = readNextLine("Enter if this teacher is a child safety officer: ")
 
-    val isAdded : Boolean = schoolAPI.addTeacher(Teacher(subjectsTeaching, classroomNumber, yearsWithTheSchool))
+    val isAdded : Boolean = schoolAPI.addTeacher(Teacher(subjectsTeaching, classroomNumber,
+                                                yearsWithTheSchool, title, childSafety))
 
     if (isAdded){
         println("Teacher added successfully")
@@ -199,11 +202,11 @@ fun listStudent(){
 }
 
 fun listGrade(){
-
+    println(schoolAPI.listAllGrades())
 }
 
 fun listTeacher(){
-
+    print(schoolAPI.listAllTeachers())
 }
 
 fun countStaff(){
