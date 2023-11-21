@@ -1,7 +1,6 @@
 package model
 
-data class Grade(var average: Int,
-                 var english: Int,
+data class Grade(var english: Int,
                  var maths: Int,
                  var geography: Int,
                  var history: Int,
