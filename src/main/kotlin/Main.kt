@@ -28,8 +28,8 @@ fun mainMenu(): Int {
          > |   4)                           |
          > |   5)                           |
          > ----------------------------------
-         > |   20) Save notes               |
-         > |   21) Load notes               |
+         > |   20) Save Entries             |
+         > |   21) Load Entries             |
          > |   0) Exit                      |
          > ----------------------------------
          > ==>> """.trimMargin(">")
@@ -41,6 +41,9 @@ fun runMenu() {
         val option = mainMenu()
         when (option) {
             1 -> add()
+            2 -> list()
+            20 -> save()
+            21 -> load()
             0 -> exitApp()
             else -> System.out.println("Invalid option entered: ${option}")
         }
@@ -68,6 +71,30 @@ fun add(){
     }
     } else {
     println("Option Invalid - No notes stored");
+    }
+}
+
+fun list(){
+    if (1 > 0) {
+        val option = readNextInt(
+            """
+                  > --------------------------------
+                 > |   1)   List Staff details     |
+                 > |   2)   List Student details   |
+                 > |   3)   List student grades    |
+                 > |   4)   List Teacher details   |
+                  > --------------------------------
+         > ==>> """.trimMargin(">"))
+
+        when (option) {
+            1 -> listStaff()
+            2 -> listStudent()
+            3 -> listGrade()
+            4 -> listTeacher()
+            else -> println("Invalid option entered: $option");
+        }
+    } else {
+        println("Option Invalid - No notes stored");
     }
 }
 
@@ -110,6 +137,22 @@ fun addGrades(){
 }
 
 fun addTeacher(){
+
+}
+
+fun listStaff(){
+    println(schoolAPI.listAllStaff())
+}
+
+fun listStudent(){
+    println(schoolAPI.listAllStudents())
+}
+
+fun listGrade(){
+
+}
+
+fun listTeacher(){
 
 }
 

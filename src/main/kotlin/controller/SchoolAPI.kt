@@ -9,6 +9,16 @@ class SchoolAPI(serializerType: Serializer) {
     private var staffs = ArrayList<Staff>()
     private var serializer: Serializer = serializerType
 
+    private fun formatListStudentString(notesToFormat: List<Student>): String =
+        notesToFormat.joinToString(separator = "\n") { student ->
+            students.indexOf(student).toString() + ": " + student.toString()
+        }
+
+    private fun formatListStaffString(notesToFormat: List<Staff>): String =
+        notesToFormat.joinToString(separator = "\n") { staff ->
+            staffs.indexOf(staff).toString() + ": " + staff.toString()
+        }
+
 
     fun addStudent(student: Student): Boolean {
         return students.add(student)
@@ -16,6 +26,16 @@ class SchoolAPI(serializerType: Serializer) {
 
     fun addStaff(staff: Staff): Boolean{
         return staffs.add(staff)
+    }
+
+    fun listAllStudents(): String{
+        return if (students.isEmpty()) "No Student entries"
+        else formatListStudentString(students)
+    }
+
+    fun listAllStaff(): String{
+        return if (staffs.isEmpty()) "no Staff entries"
+        else formatListStaffString(staffs)
     }
 
     @Throws(Exception::class)
