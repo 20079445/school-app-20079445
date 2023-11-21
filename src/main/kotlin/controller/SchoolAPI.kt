@@ -13,14 +13,24 @@ class SchoolAPI(serializerType: Serializer) {
     private var teachers = ArrayList<Teacher>()
     private var serializer: Serializer = serializerType
 
-    private fun formatListStudentString(notesToFormat: List<Student>): String =
-        notesToFormat.joinToString(separator = "\n") { student ->
+    private fun formatListStudentString(entryToFormat: List<Student>): String =
+        entryToFormat.joinToString(separator = "\n") { student ->
             students.indexOf(student).toString() + ": " + student.toString()
         }
 
-    private fun formatListStaffString(notesToFormat: List<Staff>): String =
-        notesToFormat.joinToString(separator = "\n") { staff ->
+    private fun formatListStaffString(entryToFormat: List<Staff>): String =
+        entryToFormat.joinToString(separator = "\n") { staff ->
             staffs.indexOf(staff).toString() + ": " + staff.toString()
+        }
+
+    private fun formatListGradeString(entryToFormat: List<Grade>): String =
+        entryToFormat.joinToString(separator = "\n") { grade ->
+            grades.indexOf(grade).toString() + ": " + grade.toString()
+        }
+
+    private fun formatListTeacherString(entryToFormat: List<Teacher>): String =
+        entryToFormat.joinToString(separator = "\n") { teacher ->
+            teachers.indexOf(teacher).toString() + ": " + teacher.toString()
         }
 
 
@@ -48,6 +58,16 @@ class SchoolAPI(serializerType: Serializer) {
     fun listAllStaff(): String{
         return if (staffs.isEmpty()) "no Staff entries"
         else formatListStaffString(staffs)
+    }
+
+    fun listAllGrades():String{
+        return if (grades.isEmpty()) "no Grade entries"
+        else formatListGradeString(grades)
+    }
+
+    fun listAllTeachers(): String{
+        return if (teachers.isEmpty()) "no Teacher entries"
+        else formatListTeacherString(teachers)
     }
 
     fun countAllStaff(): Int{
