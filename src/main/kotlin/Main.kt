@@ -218,11 +218,11 @@ fun countStudent(){
 }
 
 fun countGrade(){
-
+    println(schoolAPI.countAllGrade())
 }
 
 fun countTeacher(){
-
+    println(schoolAPI.countAllTeacher())
 }
 
 fun save() {
