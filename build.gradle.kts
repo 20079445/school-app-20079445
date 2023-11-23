@@ -17,6 +17,8 @@ dependencies {
     implementation("org.slf4j:slf4j-simple:2.0.9")
     //dependencies for persistence
     implementation("com.thoughtworks.xstream:xstream:1.4.18")
+    //dependencies for UI
+    implementation("com.googlecode.lanterna:lanterna:3.1.1")
 }
 
 tasks.test {

@@ -9,34 +9,43 @@ import utils.ScannerInput.readNextInt
 import utils.ScannerInput.readNextLine
 import java.io.File
 
-
-
 private val logger = KotlinLogging.logger {}
 private val schoolAPI = SchoolAPI(XMLSerializer(File("school.xml")))
+
+private const val ANSI_RESET = "\u001B[0m"
+private const val ANSI_CYAN = "\u001B[36m"
+private const val ANSI_GREEN = "\u001B[32m"
+private const val ANSI_RED = "\u001B[31m"
 
 fun main(args: Array<String>) {
     runMenu()
 }
 
 fun mainMenu(): Int {
-    return readNextInt(
-        """ 
+        val menu = """ 
          > ----------------------------------
          > |      SCHOOL DATABASE APP       |
          > ----------------------------------
          > | SCHOOL MENU                    |
-         > |   1)   Add An Entry            |
-         > |   2)   List Entry              |
-         > |   3)   Count Entry             |
-         > |   4)                           |
-         > |   5)                           |
+         > |   ${ANSI_CYAN}1)   Add An Entry${ANSI_RESET}               |
+         > |   ${ANSI_CYAN}2)   List Entry${ANSI_RESET}                 |
+         > |   ${ANSI_CYAN}3)   Count Entry${ANSI_RESET}                |
+         > |   ${ANSI_CYAN}4)   Details${ANSI_RESET}                    |
+         > |   ${ANSI_CYAN}5)   Placeholder${ANSI_RESET}                |
          > ----------------------------------
-         > |   20) Save Entries             |
-         > |   21) Load Entries             |
-         > |   0) Exit                      |
+         > |   ${ANSI_GREEN}20) Save Entries${ANSI_RESET}                |
+         > |   ${ANSI_GREEN}21) Load Entries${ANSI_RESET}                |
+         > |   ${ANSI_RED}0) Exit${ANSI_RESET}                          |
          > ----------------------------------
          > ==>> """.trimMargin(">")
-    )
+
+    val terminalWidth = 400
+    val centeredMenu = menu.lines().joinToString("\n") { line ->
+        val spacesNeeded = (terminalWidth - line.length) / 2
+        " ".repeat(spacesNeeded) + line
+    }
+
+    return readNextInt(centeredMenu)
 }
 
 fun runMenu() {
@@ -46,6 +55,7 @@ fun runMenu() {
             1 -> add()
             2 -> list()
             3 -> count()
+            4 -> details()
             20 -> save()
             21 -> load()
             0 -> exitApp()
@@ -54,41 +64,55 @@ fun runMenu() {
     } while (true)
 }
 
-fun add(){
+fun add() {
     if (1 > 0) {
-    val option = readNextInt(
-        """
+        val subMenu = """
                   > --------------------------------
                  > |   1)   Add Staff details       |
                  > |   2)   Add Student details     |
                  > |   3)   Add student grades      |
                  > |   4)   Add Teacher details     |
                   > --------------------------------
-         > ==>> """.trimMargin(">"))
+         > ==>> """.trimMargin(">")
+        val terminalWidth = 400
+        val centeredSubMenu = subMenu.lines().joinToString("\n") { line ->
+            val spacesNeeded = (terminalWidth - line.length) / 2
+            " ".repeat(spacesNeeded) + line
+        }
 
-    when (option) {
-        1 -> addStaff()
-        2 -> addStudent()
-        3 -> addGrades()
-        4 -> addTeacher()
-        else -> println("Invalid option entered: $option");
-    }
+        val option = readNextInt(centeredSubMenu)
+
+        when (option) {
+            1 -> addStaff()
+            2 -> addStudent()
+            3 -> addGrades()
+            4 -> addTeacher()
+            else -> println("Invalid option entered: $option");
+        }
     } else {
-    println("Option Invalid - No notes stored");
+        println("Option Invalid - No notes stored");
     }
 }
 
-fun list(){
+
+fun list() {
     if (1 > 0) {
-        val option = readNextInt(
-            """
+        val subMenu = """
                   > --------------------------------
                  > |   1)   List Staff details     |
                  > |   2)   List Student details   |
                  > |   3)   List student grades    |
                  > |   4)   List Teacher details   |
                   > --------------------------------
-         > ==>> """.trimMargin(">"))
+         > ==>> """.trimMargin(">")
+
+        val terminalWidth = 400
+        val centeredSubMenu = subMenu.lines().joinToString("\n") { line ->
+            val spacesNeeded = (terminalWidth - line.length) / 2
+            " ".repeat(spacesNeeded) + line
+        }
+
+        val option = readNextInt(centeredSubMenu)
 
         when (option) {
             1 -> listStaff()
@@ -102,17 +126,24 @@ fun list(){
     }
 }
 
-fun count(){
+fun count() {
     if (1 > 0) {
-        val option = readNextInt(
-            """
+        val subMenu = """
                   > --------------------------------
                  > |   1)   Count Staff details    |
                  > |   2)   Count Student details  |
                  > |   3)   Count student grades   |
                  > |   4)   Count Teacher details  |
                   > --------------------------------
-         > ==>> """.trimMargin(">"))
+         > ==>> """.trimMargin(">")
+
+        val terminalWidth = 400
+        val centeredSubMenu = subMenu.lines().joinToString("\n") { line ->
+            val spacesNeeded = (terminalWidth - line.length) / 2
+            " ".repeat(spacesNeeded) + line
+        }
+
+        val option = readNextInt(centeredSubMenu)
 
         when (option) {
             1 -> countStaff()
@@ -125,6 +156,36 @@ fun count(){
         println("Option Invalid - No notes stored");
     }
 }
+
+fun details() {
+    if (1 > 0) {
+        val subMenu = """
+                  > --------------------------------
+                 > |   1)   Staff details          |
+                 > |   2)   Student details        |
+                 > |   3)   Teacher details        |
+                  > --------------------------------
+         > ==>> """.trimMargin(">")
+
+        val terminalWidth = 400
+        val centeredSubMenu = subMenu.lines().joinToString("\n") { line ->
+            val spacesNeeded = (terminalWidth - line.length) / 2
+            " ".repeat(spacesNeeded) + line
+        }
+
+        val option = readNextInt(centeredSubMenu)
+
+        when (option) {
+            1 -> countStaff()
+            2 -> countStudent()
+            3 -> countGrade()
+            else -> println("Invalid option entered: $option");
+        }
+    } else {
+        println("Option Invalid - No notes stored");
+    }
+}
+
 
 fun addStaff(){
     val staffName = readNextLine("Enter Staff name: ")
