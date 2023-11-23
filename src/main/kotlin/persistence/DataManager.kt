@@ -1,6 +1,9 @@
-package model
+package persistence
 
-import persistence.Serializer
+import model.Grade
+import model.Staff
+import model.Student
+import model.Teacher
 
 class DataManager(private val studentSerializer: Serializer<List<Student>>,
                   private val staffSerializer: Serializer<List<Staff>>,
@@ -32,11 +35,10 @@ class DataManager(private val studentSerializer: Serializer<List<Student>>,
     }
 
     fun storeGrade(grades: List<Staff>) {
-        staffSerializer.write(grades)
+        gradeSerializer.write(grades)
     }
 
     fun storeTeacher(teachers: List<Staff>) {
-        staffSerializer.write(teachers)
+        teacherSerializer.write(teachers)
     }
 }
-

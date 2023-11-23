@@ -10,8 +10,9 @@ import utils.ScannerInput.readNextLine
 import java.io.File
 
 
+
 private val logger = KotlinLogging.logger {}
-private val schoolAPI = SchoolAPI(XMLSerializer(File("notes.xml")))
+private val schoolAPI = SchoolAPI(XMLSerializer(File("school.xml")))
 
 fun main(args: Array<String>) {
     runMenu()
@@ -193,37 +194,15 @@ fun addTeacher(){
     }
 }
 
-fun listStaff(){
-    println(schoolAPI.listAllStaff())
-}
+fun listStaff(){ println(schoolAPI.listAllStaff()) }
+fun listStudent(){ println(schoolAPI.listAllStudents()) }
+fun listGrade(){ println(schoolAPI.listAllGrades()) }
+fun listTeacher(){ print(schoolAPI.listAllTeachers()) }
 
-fun listStudent(){
-    println(schoolAPI.listAllStudents())
-}
-
-fun listGrade(){
-    println(schoolAPI.listAllGrades())
-}
-
-fun listTeacher(){
-    print(schoolAPI.listAllTeachers())
-}
-
-fun countStaff(){
-    println(schoolAPI.countAllStaff())
-}
-
-fun countStudent(){
-    println(schoolAPI.countAllStudent())
-}
-
-fun countGrade(){
-    println(schoolAPI.countAllGrade())
-}
-
-fun countTeacher(){
-    println(schoolAPI.countAllTeacher())
-}
+fun countStaff(){ println(schoolAPI.countAllStaff()) }
+fun countStudent(){ println(schoolAPI.countAllStudent()) }
+fun countGrade(){ println(schoolAPI.countAllGrade()) }
+fun countTeacher(){ println(schoolAPI.countAllTeacher()) }
 
 fun save() {
     try {
@@ -232,7 +211,6 @@ fun save() {
         System.err.println("Error writing to file: $e")
     }
 }
-
 
 fun load() {
     try {
