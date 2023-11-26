@@ -1,11 +1,13 @@
 package persistence
 
-
 import java.io.File
 import kotlin.Throws
 import com.thoughtworks.xstream.XStream
 import com.thoughtworks.xstream.io.xml.DomDriver
+import model.Grade
+import model.Staff
 import model.Student
+import model.Teacher
 import java.io.FileReader
 import java.io.FileWriter
 import java.lang.Exception
@@ -16,6 +18,9 @@ class XMLSerializer(private val file: File) : Serializer<Any?> {
     override fun read(): Any {
         val xStream = XStream(DomDriver())
         xStream.allowTypes(arrayOf(Student::class.java))
+        xStream.allowTypes(arrayOf(Staff::class.java))
+        xStream.allowTypes(arrayOf(Grade::class.java))
+        xStream.allowTypes(arrayOf(Teacher::class.java))
         val inputStream = xStream.createObjectInputStream(FileReader(file))
         val obj = inputStream.readObject() as Any
         inputStream.close()
