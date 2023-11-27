@@ -23,21 +23,21 @@ fun main(args: Array<String>) {
 
 fun mainMenu(): Int {
         val menu = """ 
-         > ----------------------------------
-         > |      SCHOOL DATABASE APP       |
-         > ----------------------------------
-         > | SCHOOL MENU                    |
-         > |   ${ANSI_CYAN}1)   Add An Entry${ANSI_RESET}               |
-         > |   ${ANSI_CYAN}2)   List Entry${ANSI_RESET}                 |
-         > |   ${ANSI_CYAN}3)   Count Entry${ANSI_RESET}                |
-         > |   ${ANSI_CYAN}4)   Details${ANSI_RESET}                    |
-         > |   ${ANSI_CYAN}5)   Placeholder${ANSI_RESET}                |
-         > ----------------------------------
-         > |   ${ANSI_GREEN}20) Save Entries${ANSI_RESET}                |
-         > |   ${ANSI_GREEN}21) Load Entries${ANSI_RESET}                |
-         > |   ${ANSI_RED}0) Exit${ANSI_RESET}                          |
-         > ----------------------------------
-         > ==>> """.trimMargin(">")
+         > -----------------------------------
+> |      SCHOOL DATABASE APP        |
+> -----------------------------------
+> | SCHOOL MENU                     |
+>          |   ${ANSI_CYAN}1)   Add An Entry${ANSI_RESET}             |
+>          |   ${ANSI_CYAN}2)   List Entry${ANSI_RESET}               |
+>          |   ${ANSI_CYAN}3)   Count Entry${ANSI_RESET}              |
+>          |   ${ANSI_CYAN}4)   Details${ANSI_RESET}                  |
+>          |   ${ANSI_CYAN}5)   Placeholder${ANSI_RESET}              |
+> -----------------------------------
+>          |   ${ANSI_GREEN}20) Save Entries${ANSI_RESET}              |
+>          |   ${ANSI_GREEN}21) Load Entries${ANSI_RESET}              |
+>           |   ${ANSI_RED}0) Exit${ANSI_RESET}                        |
+> -----------------------------------
+> ==>> """.trimMargin(">")
 
     val terminalWidth = 400
     val centeredMenu = menu.lines().joinToString("\n") { line ->
@@ -186,21 +186,39 @@ fun details() {
     }
 }
 
+fun printCentered(text: String) {
+    val terminalWidth = 400
+    val spacesNeeded = (terminalWidth - text.length) / 2
+    val centeredText = " ".repeat(spacesNeeded) + text
+    println(centeredText)
+}
+
+fun readNextLineCentered(prompt: String): String {
+    printCentered(prompt)
+    return readLine() ?: ""
+}
+
+fun readNextIntCentered(prompt: String): Int {
+    printCentered(prompt)
+    return readLine()?.toIntOrNull() ?: 0
+}
 
 fun addStaff(){
-    val staffName = readNextLine("Enter Staff name: ")
-    val staffId = readNextInt("Enter staff ID: ")
-    val staffAddress = readNextLine("Enter the staff address: ")
-    val staffPhone = readNextInt("Enter the staff members phone number: ")
-    val staffType = readNextInt("Type of staff: 1 for teacher & 0 for other: ")
+    val staffName = readNextLineCentered("Enter Staff name: ")
+    val staffId = readNextIntCentered("Enter staff ID: ")
+    val staffAddress = readNextLineCentered("Enter the staff address: ")
+    val staffPhone = readNextIntCentered("Enter the staff members phone number: ")
+    val staffType = readNextIntCentered("Type of staff: 1 for teacher & 0 for other: ")
 
     val isAdded : Boolean = schoolAPI.addStaff(Staff(staffName, staffId, staffAddress,
-                                                     staffPhone, staffType)
-    )
+                                                     staffPhone, staffType))
+
     if (isAdded){
-        println("Staff added successfully")
+        val successMessage = "Staff added successfully"
+        printCentered(successMessage)
     } else{
-        println("Failed to add student details")
+        val errorMessage = "Failed to add student details"
+        printCentered(errorMessage)
     }
 }
 
