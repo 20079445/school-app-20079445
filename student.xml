@@ -1,0 +1,12 @@
+<object-stream>
+  <list>
+    <model.Student>
+      <name>1</name>
+      <studentId>1</studentId>
+      <year>1</year>
+      <address>1</address>
+      <record>1</record>
+      <grades/>
+    </model.Student>
+  </list>
+</object-stream>

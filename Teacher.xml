@@ -1,0 +1,11 @@
+<object-stream>
+  <list>
+    <model.Teacher>
+      <subjects>1</subjects>
+      <classroom>1</classroom>
+      <yearsWithSchool>1</yearsWithSchool>
+      <jobTitle>1</jobTitle>
+      <childSafety>1</childSafety>
+    </model.Teacher>
+  </list>
+</object-stream>
