@@ -7,17 +7,20 @@ import model.Teacher
 import persistence.Serializer
 import persistence.XMLSerializer
 
-class SchoolAPI(serializerType: XMLSerializer) {
+class SchoolAPI(studentSerializerType: XMLSerializer,
+                staffSerializerType: XMLSerializer,
+                gradeSerializerType: XMLSerializer,
+                teacherSerializerType: XMLSerializer) {
 
     private var students = ArrayList<Student>()
     private var staffs = ArrayList<Staff>()
     private var grades = ArrayList<Grade>()
     private var teachers = ArrayList<Teacher>()
 
-    private var studentSerializer: XMLSerializer = serializerType
-    private var staffSerializer: XMLSerializer = serializerType
-    private var gradeSerializer: XMLSerializer = serializerType
-    private var teacherSerializer: XMLSerializer = serializerType
+    private var studentSerializer: XMLSerializer = studentSerializerType
+    private var staffSerializer: XMLSerializer = staffSerializerType
+    private var gradeSerializer: XMLSerializer = gradeSerializerType
+    private var teacherSerializer: XMLSerializer = teacherSerializerType
 
     var isAddStudentUsed = false
     var isAddStaffUsed = false

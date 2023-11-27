@@ -10,7 +10,10 @@ import utils.ScannerInput.readNextLine
 import java.io.File
 
 private val logger = KotlinLogging.logger {}
-private val schoolAPI = SchoolAPI(XMLSerializer(File("school.xml")))
+private val schoolAPI = SchoolAPI(XMLSerializer(File("student.xml")),
+                                  XMLSerializer(File("Staff.xml")),
+                                  XMLSerializer(File("Grade.xml")),
+                                  XMLSerializer(File("Teacher.xml")))
 
 private const val ANSI_RESET = "\u001B[0m"
 private const val ANSI_CYAN = "\u001B[36m"
