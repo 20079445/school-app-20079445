@@ -291,6 +291,7 @@ fun save() {
         schoolAPI.store()
     } catch (e: Exception) {
         System.err.println("Error writing to file: $e")
+        throw e
     }
 }
 
@@ -299,6 +300,7 @@ fun load() {
         schoolAPI.load()
     } catch (e: Exception) {
         System.err.println("Error reading from file: $e")
+        throw e
     }
 }
 

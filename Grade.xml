@@ -1,12 +1,3 @@
 <object-stream>
-  <list>
-    <model.Grade>
-      <english>1</english>
-      <maths>1</maths>
-      <geography>1</geography>
-      <history>1</history>
-      <civics>1</civics>
-      <irish>1</irish>
-    </model.Grade>
-  </list>
+  <list/>
 </object-stream>

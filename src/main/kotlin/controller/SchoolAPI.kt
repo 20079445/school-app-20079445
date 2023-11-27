@@ -4,8 +4,10 @@ import model.Grade
 import model.Staff
 import model.Student
 import model.Teacher
-import persistence.Serializer
 import persistence.XMLSerializer
+import mu.KotlinLogging
+
+private val logger = KotlinLogging.logger {}
 
 class SchoolAPI(studentSerializerType: XMLSerializer,
                 staffSerializerType: XMLSerializer,
@@ -64,6 +66,7 @@ class SchoolAPI(studentSerializerType: XMLSerializer,
 
     @Throws(Exception::class)
     fun load() {
+        logger.info("Loading data...")
         val test = true
         when(test){
             isAddStudentUsed -> students = studentSerializer.read() as ArrayList<Student>
@@ -76,10 +79,12 @@ class SchoolAPI(studentSerializerType: XMLSerializer,
 
     @Throws(Exception::class)
     fun store() {
+        logger.info("Storing data...")
         studentSerializer.write(students)
         staffSerializer.write(staffs)
         gradeSerializer.write(grades)
         teacherSerializer.write(teachers)
+        logger.info("Data stored successfully.")
     }
 }
 

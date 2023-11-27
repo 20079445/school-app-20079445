@@ -1,7 +1,7 @@
 <object-stream>
   <list>
     <model.Staff>
-      <name>test</name>
+      <name>1</name>
       <staffId>1</staffId>
       <staffAddress>1</staffAddress>
       <staffPhone>1</staffPhone>
