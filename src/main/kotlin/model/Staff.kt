@@ -5,4 +5,4 @@ data class Staff(var name: String,
                  var staffAddress: String,
                  var staffPhone: Int,
                  var typeOfStaff: Int,
-                 var teachers: ArrayList<Teacher> = ArrayList<Teacher>())
+                 var teachers: ArrayList<Teacher> = ArrayList())

@@ -164,8 +164,8 @@ fun details() {
     if (1 > 0) {
         val subMenu = """
                   > --------------------------------
-                 > |   1)   Staff details          |
-                 > |   2)   Student details        |
+                 > |   1)   Staff Payslips         |
+                 > |   2)   Student Grades         |
                  > |   3)   Teacher details        |
                   > --------------------------------
          > ==>> """.trimMargin(">")
@@ -242,6 +242,7 @@ fun addStudent(){
 }
 
 fun addGrades(){
+    val studentId = readNextInt("Enter the ID of the student you want to assign their grades to: ")
     val English = readNextInt("Enter the students grade for English: ")
     val Maths = readNextInt("Enter the students grade for Maths: ")
     val Geography = readNextInt("Enter the students grade for Geography: ")
@@ -249,7 +250,7 @@ fun addGrades(){
     val Civics = readNextInt("Enter the students grade for Civics: ")
     val Irish = readNextInt("Enter the students grade for Irish: ")
 
-    val isAdded : Boolean = schoolAPI.addGrade(Grade(English, Maths, Geography,
+    val isAdded : Boolean = schoolAPI.addGrade(Grade(studentId, English, Maths, Geography,
         History, Civics, Irish))
 
     if (isAdded){
@@ -260,13 +261,14 @@ fun addGrades(){
 }
 
 fun addTeacher(){
+    val teacherId = readNextInt("Enter the ID of the teacher: ")
     val subjectsTeaching = readNextLine("Enter the subjects this teacher teaches: ")
     val classroomNumber = readNextInt("Enter their classroom number: ")
     val yearsWithTheSchool = readNextInt("Enter the number of years with the school: ")
     val title = readNextLine("Enter the teachers official job title: ")
     val childSafety = readNextLine("Enter if this teacher is a child safety officer: ")
 
-    val isAdded : Boolean = schoolAPI.addTeacher(Teacher(subjectsTeaching, classroomNumber,
+    val isAdded : Boolean = schoolAPI.addTeacher(Teacher(teacherId, subjectsTeaching, classroomNumber,
                                                 yearsWithTheSchool, title, childSafety))
 
     if (isAdded){

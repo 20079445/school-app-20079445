@@ -5,4 +5,4 @@ data class Student(var name: String = "",
                    var year: Int = 0,
                    var address: String = "",
                    var record: String = "",
-                   var grades: ArrayList<Grade> = ArrayList<Grade>())
+                   var grades: ArrayList<Grade> = ArrayList())

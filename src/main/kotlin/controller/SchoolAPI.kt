@@ -38,11 +38,23 @@ class SchoolAPI(studentSerializerType: XMLSerializer,
         isAddStaffUsed = true
         return add(staff, staffs) }
     fun addGrade(grade: Grade): Boolean {
-        isAddGradeUsed = true
-        return add(grade, grades) }
+        val student = students.find { it.studentId == grade.student }
+        return if (student != null) {
+            student.grades.add(grade)
+            isAddGradeUsed = true
+            true
+        } else {
+            false
+        } }
     fun addTeacher(teacher: Teacher): Boolean {
-        isAddTeacherUsed = true
-        return add(teacher, teachers) }
+        val staff = staffs.find { it.staffId == teacher.staff }
+        return if (staff != null){
+            staff.teachers.add(teacher)
+            isAddTeacherUsed = true
+            true
+        } else {
+            false
+        } }
 
     private inline fun <reified T> listAll(entries: List<T>, name: String): String {
         return if (entries.isEmpty()) "No $name entries"
