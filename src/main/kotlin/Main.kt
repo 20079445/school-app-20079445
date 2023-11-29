@@ -320,11 +320,11 @@ fun updateStudent(){
         val studentToUpdate = readNextInt("Enter the ID of the student you want to update: ")
 
         if (schoolAPI.isValidStudentId(studentToUpdate)){
-            val studentName = readNextLine("Enter the full name of the student: ")
-            val studentId = readNextInt("Enter the students ID: ")
-            val studentYear = readNextInt("Enter the year the student is in: ")
-            val studentAddress = readNextLine("Enter the address of the student: ")
-            val studentRecord = readNextLine("Enter the students records: ")
+            val studentName = readNextLineCentered("Enter the full name of the student: ")
+            val studentId = readNextIntCentered("Enter the students ID: ")
+            val studentYear = readNextIntCentered("Enter the year the student is in: ")
+            val studentAddress = readNextLineCentered("Enter the address of the student: ")
+            val studentRecord = readNextLineCentered("Enter the students records: ")
 
             if (schoolAPI.updateStudent(studentToUpdate, Student(studentName, studentId, studentYear, studentAddress, studentRecord))){
                 println("Student updated successfully")
@@ -339,13 +339,13 @@ fun updateGrade(){
         val gradeToUpdate = readNextInt("Enter the ID of the students grades you want to update: ")
 
         if (schoolAPI.isValidGradeId(gradeToUpdate)){
-        val studentId = readNextInt("Enter the ID of the student you want to assign their grades to: ")
-        val English = readNextInt("Enter the students grade for English: ")
-        val Maths = readNextInt("Enter the students grade for Maths: ")
-        val Geography = readNextInt("Enter the students grade for Geography: ")
-        val History = readNextInt("Enter the students grade for History: ")
-        val Civics = readNextInt("Enter the students grade for Civics: ")
-        val Irish = readNextInt("Enter the students grade for Irish: ")
+        val studentId = readNextIntCentered("Enter the ID of the student you want to assign their grades to: ")
+        val English = readNextIntCentered("Enter the students grade for English: ")
+        val Maths = readNextIntCentered("Enter the students grade for Maths: ")
+        val Geography = readNextIntCentered("Enter the students grade for Geography: ")
+        val History = readNextIntCentered("Enter the students grade for History: ")
+        val Civics = readNextIntCentered("Enter the students grade for Civics: ")
+        val Irish = readNextIntCentered("Enter the students grade for Irish: ")
 
         if (schoolAPI.updateGrade(gradeToUpdate, Grade(studentId, English, Maths, Geography, History, Civics, Irish))){
             println("Grades updated successfully")
@@ -360,12 +360,12 @@ fun updateTeacher(){
         val teacherToUpdate = readNextInt("Enter the ID of the staff teacher you want to update: ")
 
         if (schoolAPI.isValidTeacherId(teacherToUpdate)){
-            val teacherId = readNextInt("Enter the ID of the teacher: ")
-            val subjectsTeaching = readNextLine("Enter the subjects this teacher teaches: ")
-            val classroomNumber = readNextInt("Enter their classroom number: ")
-            val yearsWithTheSchool = readNextInt("Enter the number of years with the school: ")
-            val title = readNextLine("Enter the teachers official job title: ")
-            val childSafety = readNextLine("Enter if this teacher is a child safety officer: ")
+            val teacherId = readNextIntCentered("Enter the ID of the teacher: ")
+            val subjectsTeaching = readNextLineCentered("Enter the subjects this teacher teaches: ")
+            val classroomNumber = readNextIntCentered("Enter their classroom number: ")
+            val yearsWithTheSchool = readNextIntCentered("Enter the number of years with the school: ")
+            val title = readNextLineCentered("Enter the teachers official job title: ")
+            val childSafety = readNextLineCentered("Enter if this teacher is a child safety officer: ")
 
             if (schoolAPI.updateTeacher(teacherToUpdate, Teacher(teacherId, subjectsTeaching, classroomNumber, yearsWithTheSchool, title, childSafety))){
                 println("Teacher updated successfully")
