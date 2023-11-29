@@ -200,12 +200,16 @@ fun printCentered(text: String) {
 
 fun readNextLineCentered(prompt: String): String {
     printCentered(prompt)
-    return readLine() ?: ""
+    val input = readLine() ?: ""
+    printCentered("> $input")
+    return input
 }
 
 fun readNextIntCentered(prompt: String): Int {
     printCentered(prompt)
-    return readLine()?.toIntOrNull() ?: 0
+    val input = readLine()?.toIntOrNull() ?: 0
+    printCentered("> $input")
+    return input
 }
 
 fun addStaff(){
@@ -228,11 +232,11 @@ fun addStaff(){
 }
 
 fun addStudent(){
-    val studentName = readNextLine("Enter the full name of the student: ")
-    val studentId = readNextInt("Enter the students ID: ")
-    val studentYear = readNextInt("Enter the year the student is in: ")
-    val studentAddress = readNextLine("Enter the address of the student: ")
-    val studentRecord = readNextLine("Enter the students records: ")
+    val studentName = readNextLineCentered("Enter the full name of the student: ")
+    val studentId = readNextIntCentered("Enter the students ID: ")
+    val studentYear = readNextIntCentered("Enter the year the student is in: ")
+    val studentAddress = readNextLineCentered("Enter the address of the student: ")
+    val studentRecord = readNextLineCentered("Enter the students records: ")
 
     val isAdded : Boolean = schoolAPI.addStudent(Student(studentName, studentId, studentYear,
                                         studentAddress, studentRecord))
@@ -244,13 +248,13 @@ fun addStudent(){
 }
 
 fun addGrades(){
-    val studentId = readNextInt("Enter the ID of the student you want to assign their grades to: ")
-    val English = readNextInt("Enter the students grade for English: ")
-    val Maths = readNextInt("Enter the students grade for Maths: ")
-    val Geography = readNextInt("Enter the students grade for Geography: ")
-    val History = readNextInt("Enter the students grade for History: ")
-    val Civics = readNextInt("Enter the students grade for Civics: ")
-    val Irish = readNextInt("Enter the students grade for Irish: ")
+    val studentId = readNextIntCentered("Enter the ID of the student you want to assign their grades to: ")
+    val English = readNextIntCentered("Enter the students grade for English: ")
+    val Maths = readNextIntCentered("Enter the students grade for Maths: ")
+    val Geography = readNextIntCentered("Enter the students grade for Geography: ")
+    val History = readNextIntCentered("Enter the students grade for History: ")
+    val Civics = readNextIntCentered("Enter the students grade for Civics: ")
+    val Irish = readNextIntCentered("Enter the students grade for Irish: ")
 
     val isAdded : Boolean = schoolAPI.addGrade(Grade(studentId, English, Maths, Geography,
         History, Civics, Irish))
@@ -263,12 +267,12 @@ fun addGrades(){
 }
 
 fun addTeacher(){
-    val teacherId = readNextInt("Enter the ID of the teacher: ")
+    val teacherId = readNextIntCentered("Enter the ID of the teacher: ")
     val subjectsTeaching = readNextLine("Enter the subjects this teacher teaches: ")
-    val classroomNumber = readNextInt("Enter their classroom number: ")
-    val yearsWithTheSchool = readNextInt("Enter the number of years with the school: ")
-    val title = readNextLine("Enter the teachers official job title: ")
-    val childSafety = readNextLine("Enter if this teacher is a child safety officer: ")
+    val classroomNumber = readNextIntCentered("Enter their classroom number: ")
+    val yearsWithTheSchool = readNextIntCentered("Enter the number of years with the school: ")
+    val title = readNextLineCentered("Enter the teachers official job title: ")
+    val childSafety = readNextLineCentered("Enter if this teacher is a child safety officer: ")
 
     val isAdded : Boolean = schoolAPI.addTeacher(Teacher(teacherId, subjectsTeaching, classroomNumber,
                                                 yearsWithTheSchool, title, childSafety))
