@@ -143,39 +143,22 @@ class SchoolAPI(studentSerializerType: XMLSerializer,
     }
 
     fun isValidStaffId(staffId: Int): Boolean {
-        return staffs.any { it.staffId == staffId }
-    }
-
-    fun isValidStudentId(index: Int): Boolean {
-        return Utilities.isValidListIndex(index, students) }
-
-    fun isValidGradeId(index: Int): Boolean {
-        return Utilities.isValidListIndex(index, grades) }
-
-    fun isValidTeacherId(index: Int): Boolean {
-        return Utilities.isValidListIndex(index, teachers) }
+        return staffs.any { it.staffId == staffId } }
+    fun isValidStudentId(studentId: Int): Boolean {
+        return students.any { it.studentId == studentId } }
+    fun isValidGradeId(gradeId: Int): Boolean {
+        return grades.any { it.student == gradeId } }
+    fun isValidTeacherId(teacherId: Int): Boolean {
+        return teachers.any { it.staff == teacherId } }
 
     fun findStaff(staffId: Int): Staff? {
-        return staffs.find { it.staffId == staffId }
-    }
-
-    fun findStudent(index: Int): Student? {
-        return if (Utilities.isValidListIndex(index, students)) {
-            students[index]
-        } else null
-    }
-
-    fun findGrade(index: Int): Grade? {
-        return if (Utilities.isValidListIndex(index, grades)) {
-            grades[index]
-        } else null
-    }
-
-    fun findTeacher(index: Int): Teacher? {
-        return if (Utilities.isValidListIndex(index, teachers)) {
-            teachers[index]
-        } else null
-    }
+        return staffs.find { it.staffId == staffId } }
+    fun findStudent(studentId: Int): Student? {
+        return students.find { it.studentId == studentId } }
+    fun findGrade(studentId: Int): Grade? {
+        return grades.find { it.student == studentId } }
+    fun findTeacher(teacherId: Int): Teacher? {
+        return teachers.find { it.staff == teacherId } }
 
     @Throws(Exception::class)
     fun load() {
