@@ -34,7 +34,7 @@ fun mainMenu(): Int {
 >          |   ${ANSI_CYAN}2)   List Entry${ANSI_RESET}               |
 >          |   ${ANSI_CYAN}3)   Count Entry${ANSI_RESET}              |
 >          |   ${ANSI_CYAN}4)   Update Details${ANSI_RESET}           |
->          |   ${ANSI_CYAN}5)   Placeholder${ANSI_RESET}              |
+>          |   ${ANSI_CYAN}5)   Delete Entry${ANSI_RESET}             |
 > -----------------------------------
 >          |   ${ANSI_GREEN}20) Save Entries${ANSI_RESET}              |
 >          |   ${ANSI_GREEN}21) Load Entries${ANSI_RESET}              |
@@ -59,6 +59,7 @@ fun runMenu() {
             2 -> list()
             3 -> count()
             4 -> update()
+            5 -> delete()
             20 -> save()
             21 -> load()
             0 -> exitApp()
@@ -184,6 +185,37 @@ fun update() {
             2 -> updateStudent()
             3 -> updateGrade()
             4 -> updateTeacher()
+            else -> println("Invalid option entered: $option");
+        }
+    } else {
+        println("Option Invalid - No notes stored");
+    }
+}
+
+fun delete() {
+    if (1 > 0) {
+        val subMenu = """
+                  > --------------------------------
+                 > |   1)   Delete Staff           |
+                 > |   2)   Delete Student         |
+                 > |   3)   Delete Grades          |
+                 > |   4)   Delete Teacher         |
+                  > --------------------------------
+         > ==>> """.trimMargin(">")
+
+        val terminalWidth = 400
+        val centeredSubMenu = subMenu.lines().joinToString("\n") { line ->
+            val spacesNeeded = (terminalWidth - line.length) / 2
+            " ".repeat(spacesNeeded) + line
+        }
+
+        val option = readNextInt(centeredSubMenu)
+
+        when (option) {
+            1 -> deleteStaff()
+            2 -> deleteStudent()
+            3 -> deleteGrade()
+            4 -> deleteTeacher()
             else -> println("Invalid option entered: $option");
         }
     } else {
@@ -372,9 +404,59 @@ fun updateTeacher(){
             } else{
                 println("Failed to update Teacher details")
             }
+        } } }
+
+fun deleteStaff(){
+    listStaff()
+    if (schoolAPI.countAllStaff() > 0){
+        val IdToDelete = readNextIntCentered("Enter the ID of the entry you want to delete: ")
+
+        val staffToDelete = schoolAPI.deleteStaff(IdToDelete)
+        if (staffToDelete != null){
+            println("Delete Successful! Deleted Staff entry: ${staffToDelete}")
+        } else {
+            println("Delete not successful")
         }
-    }
-}
+    } }
+
+fun deleteStudent(){
+    listStudent()
+    if (schoolAPI.countAllStudent() > 0){
+        val IdToDelete = readNextIntCentered("Enter the ID of the entry you want to delete: ")
+
+        val studentToDelete = schoolAPI.deleteStudent(IdToDelete)
+        if (studentToDelete != null){
+            println("Delete Successful! Deleted Student entry: ${studentToDelete}")
+        } else {
+            println("Delete not successful")
+        }
+    } }
+
+fun deleteGrade(){
+    listGrade()
+    if (schoolAPI.countAllGrade() > 0){
+        val IdToDelete = readNextIntCentered("Enter the ID of the entry you want to delete: ")
+
+        val gradeToDelete = schoolAPI.deleteGrade(IdToDelete)
+        if (gradeToDelete != null){
+            println("Delete Successful! Deleted Grade entry: ${gradeToDelete}")
+        } else {
+            println("Delete not successful")
+        }
+    } }
+
+fun deleteTeacher(){
+    listTeacher()
+    if (schoolAPI.countAllTeacher() > 0){
+        val IdToDelete = readNextIntCentered("Enter the ID of the entry you want to delete: ")
+
+        val teacherToDelete = schoolAPI.deleteTeacher(IdToDelete)
+        if (teacherToDelete != null){
+            println("Delete Successful! Deleted Teacher entry: ${teacherToDelete}")
+        } else {
+            println("Delete not successful")
+        }
+    } }
 
 fun save() {
     try {

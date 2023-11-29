@@ -142,6 +142,46 @@ class SchoolAPI(studentSerializerType: XMLSerializer,
         }
     }
 
+    fun deleteStaff(staffIdToDelete: Int): Any {
+        val staffToDelete = staffs.find { it.staffId == staffIdToDelete }
+        return if (staffToDelete != null) {
+            staffs.remove(staffToDelete)
+            staffToDelete
+        } else {
+            return "No Staff entry with this ID try again"
+        }
+    }
+
+    fun deleteStudent(studentToDelete: Int): Any{
+        val studentToDelete = students.find { it.studentId == studentToDelete }
+        return if (studentToDelete != null){
+            students.remove(studentToDelete)
+            studentToDelete
+        } else {
+            return "No Student entry with this ID try again"
+        }
+    }
+
+    fun deleteGrade(gradeToDelete: Int): Any{
+        val gradeToDelete = grades.find { it.student == gradeToDelete }
+        return if (gradeToDelete != null){
+            grades.remove(gradeToDelete)
+            gradeToDelete
+        } else {
+            return "No Grade entry with this ID try again"
+        }
+    }
+
+    fun deleteTeacher(teacherToDelete: Int): Any{
+        val teacherToDelete = teachers.find { it.staff == teacherToDelete }
+        return if (teacherToDelete != null){
+            teachers.remove(teacherToDelete)
+            teacherToDelete
+        } else {
+            return "No Teacher entry with this ID try again"
+        }
+    }
+
     fun isValidStaffId(staffId: Int): Boolean {
         return staffs.any { it.staffId == staffId } }
     fun isValidStudentId(studentId: Int): Boolean {
