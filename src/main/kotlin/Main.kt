@@ -33,7 +33,7 @@ fun mainMenu(): Int {
 >          |   ${ANSI_CYAN}1)   Add An Entry${ANSI_RESET}             |
 >          |   ${ANSI_CYAN}2)   List Entry${ANSI_RESET}               |
 >          |   ${ANSI_CYAN}3)   Count Entry${ANSI_RESET}              |
->          |   ${ANSI_CYAN}4)   Details${ANSI_RESET}                  |
+>          |   ${ANSI_CYAN}4)   Update Details${ANSI_RESET}           |
 >          |   ${ANSI_CYAN}5)   Placeholder${ANSI_RESET}              |
 > -----------------------------------
 >          |   ${ANSI_GREEN}20) Save Entries${ANSI_RESET}              |
@@ -58,7 +58,7 @@ fun runMenu() {
             1 -> add()
             2 -> list()
             3 -> count()
-            4 -> details()
+            4 -> update()
             20 -> save()
             21 -> load()
             0 -> exitApp()
@@ -160,13 +160,14 @@ fun count() {
     }
 }
 
-fun details() {
+fun update() {
     if (1 > 0) {
         val subMenu = """
                   > --------------------------------
-                 > |   1)   Staff Payslips         |
-                 > |   2)   Student Grades         |
-                 > |   3)   Teacher details        |
+                 > |   1)   Update Staff           |
+                 > |   2)   Update Student         |
+                 > |   3)   Update Grades          |
+                 > |   4)   Update Teacher         |
                   > --------------------------------
          > ==>> """.trimMargin(">")
 
@@ -179,9 +180,10 @@ fun details() {
         val option = readNextInt(centeredSubMenu)
 
         when (option) {
-            1 -> countStaff()
-            2 -> countStudent()
-            3 -> countGrade()
+            1 -> updateStaff()
+            2 -> updateStudent()
+            3 -> updateGrade()
+            4 -> updateTeacher()
             else -> println("Invalid option entered: $option");
         }
     } else {
@@ -220,7 +222,7 @@ fun addStaff(){
         val successMessage = "Staff added successfully"
         printCentered(successMessage)
     } else{
-        val errorMessage = "Failed to add student details"
+        val errorMessage = "Failed to add staff details"
         printCentered(errorMessage)
     }
 }
@@ -287,6 +289,88 @@ fun countStaff(){ println(schoolAPI.countAllStaff()) }
 fun countStudent(){ println(schoolAPI.countAllStudent()) }
 fun countGrade(){ println(schoolAPI.countAllGrade()) }
 fun countTeacher(){ println(schoolAPI.countAllTeacher()) }
+
+fun updateStaff(){
+    listStaff()
+    if (schoolAPI.countAllStaff() > 0){
+        val staffToUpdate = readNextInt("Enter the ID of the staff you wish to update: ")
+        if (schoolAPI.isValidStaffId(staffToUpdate)){
+            val staffName = readNextLineCentered("Enter Staff name: ")
+            val staffId = readNextIntCentered("Enter staff ID: ")
+            val staffAddress = readNextLineCentered("Enter the staff address: ")
+            val staffPhone = readNextIntCentered("Enter the staff members phone number: ")
+            val staffType = readNextIntCentered("Type of staff: 1 for teacher & 0 for other: ")
+
+            if (schoolAPI.updateStaff(staffToUpdate, Staff(staffName, staffId, staffAddress, staffPhone, staffType))){
+                val successMessage = "Staff updated successfully"
+                printCentered(successMessage)
+            } else{
+                val errorMessage = "Failed to update staff details"
+                printCentered(errorMessage)
+            }
+        } } }
+
+fun updateStudent(){
+    listStudent()
+    if (schoolAPI.countAllStudent() > 0){
+        val studentToUpdate = readNextInt("Enter the ID of the student you want to update: ")
+
+        if (schoolAPI.isValidStudentId(studentToUpdate)){
+            val studentName = readNextLine("Enter the full name of the student: ")
+            val studentId = readNextInt("Enter the students ID: ")
+            val studentYear = readNextInt("Enter the year the student is in: ")
+            val studentAddress = readNextLine("Enter the address of the student: ")
+            val studentRecord = readNextLine("Enter the students records: ")
+
+            if (schoolAPI.updateStudent(studentToUpdate, Student(studentName, studentId, studentYear, studentAddress, studentRecord))){
+                println("Student updated successfully")
+            } else{
+                println("Failed to update student details")
+            }
+        } } }
+
+fun updateGrade(){
+    listGrade()
+    if (schoolAPI.countAllGrade() > 0){
+        val gradeToUpdate = readNextInt("Enter the ID of the students grades you want to update: ")
+
+        if (schoolAPI.isValidGradeId(gradeToUpdate)){
+        val studentId = readNextInt("Enter the ID of the student you want to assign their grades to: ")
+        val English = readNextInt("Enter the students grade for English: ")
+        val Maths = readNextInt("Enter the students grade for Maths: ")
+        val Geography = readNextInt("Enter the students grade for Geography: ")
+        val History = readNextInt("Enter the students grade for History: ")
+        val Civics = readNextInt("Enter the students grade for Civics: ")
+        val Irish = readNextInt("Enter the students grade for Irish: ")
+
+        if (schoolAPI.updateGrade(gradeToUpdate, Grade(studentId, English, Maths, Geography, History, Civics, Irish))){
+            println("Grades updated successfully")
+        } else{
+            println("Failed to update Grade entries")
+        }
+    } } }
+
+fun updateTeacher(){
+    listTeacher()
+    if (schoolAPI.countAllTeacher() > 0){
+        val teacherToUpdate = readNextInt("Enter the ID of the staff teacher you want to update: ")
+
+        if (schoolAPI.isValidTeacherId(teacherToUpdate)){
+            val teacherId = readNextInt("Enter the ID of the teacher: ")
+            val subjectsTeaching = readNextLine("Enter the subjects this teacher teaches: ")
+            val classroomNumber = readNextInt("Enter their classroom number: ")
+            val yearsWithTheSchool = readNextInt("Enter the number of years with the school: ")
+            val title = readNextLine("Enter the teachers official job title: ")
+            val childSafety = readNextLine("Enter if this teacher is a child safety officer: ")
+
+            if (schoolAPI.updateTeacher(teacherToUpdate, Teacher(teacherId, subjectsTeaching, classroomNumber, yearsWithTheSchool, title, childSafety))){
+                println("Teacher updated successfully")
+            } else{
+                println("Failed to update Teacher details")
+            }
+        }
+    }
+}
 
 fun save() {
     try {

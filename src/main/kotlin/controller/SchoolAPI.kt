@@ -6,6 +6,7 @@ import model.Student
 import model.Teacher
 import persistence.XMLSerializer
 import mu.KotlinLogging
+import utils.Utilities
 
 private val logger = KotlinLogging.logger {}
 
@@ -75,6 +76,107 @@ class SchoolAPI(studentSerializerType: XMLSerializer,
     fun countAllStudent(): Int = countAll(students)
     fun countAllGrade(): Int = countAll(grades)
     fun countAllTeacher(): Int = countAll(teachers)
+
+    fun updateStaff(staffToUpdate: Int, staff: Staff): Boolean{
+        val foundStaff = findStaff(staffToUpdate)
+
+        if ((foundStaff != null) && (staff != null)){
+            foundStaff.name = staff.name
+            foundStaff.staffId = staff.staffId
+            foundStaff.staffAddress = staff.staffAddress
+            foundStaff.staffPhone = staff.staffPhone
+            foundStaff.typeOfStaff = staff.typeOfStaff
+            foundStaff.teachers = staff.teachers
+            return true
+        }else {
+            return false
+        }
+    }
+
+    fun updateStudent(studentToUpdate: Int, student: Student): Boolean{
+        val foundStudent = findStudent(studentToUpdate)
+
+        if ((foundStudent != null) && (student != null)){
+            foundStudent.name = student.name
+            foundStudent.studentId = student.studentId
+            foundStudent.year = student.year
+            foundStudent.address = student.address
+            foundStudent.record = student.record
+            foundStudent.grades = student.grades
+            return true
+        } else{
+            return false
+        }
+    }
+
+    fun updateGrade(gradeToUpdate: Int, grade: Grade): Boolean{
+        val foundGrade = findGrade(gradeToUpdate)
+
+        if ((foundGrade != null) && (grade != null)){
+            foundGrade.student = grade.student
+            foundGrade.english = grade.english
+            foundGrade.maths = grade.maths
+            foundGrade.geography = grade.geography
+            foundGrade.history = grade.history
+            foundGrade.civics = grade.civics
+            foundGrade.irish = grade.irish
+            return true
+        } else {
+            return false
+        }
+    }
+
+    fun updateTeacher(teacherToUpdate: Int, teacher: Teacher): Boolean{
+        val foundTeacher = findTeacher(teacherToUpdate)
+
+        if ((foundTeacher != null) && (teacher != null)){
+            foundTeacher.staff = teacher.staff
+            foundTeacher.subjects = teacher.subjects
+            foundTeacher.classroom = teacher.classroom
+            foundTeacher.yearsWithSchool = teacher.yearsWithSchool
+            foundTeacher.jobTitle = teacher.jobTitle
+            foundTeacher.childSafety = teacher.childSafety
+            return true
+        } else {
+            return false
+        }
+    }
+
+    fun isValidStaffId(index: Int): Boolean {
+        return Utilities.isValidListIndex(index, staffs) }
+
+    fun isValidStudentId(index: Int): Boolean {
+        return Utilities.isValidListIndex(index, students) }
+
+    fun isValidGradeId(index: Int): Boolean {
+        return Utilities.isValidListIndex(index, grades) }
+
+    fun isValidTeacherId(index: Int): Boolean {
+        return Utilities.isValidListIndex(index, teachers) }
+
+    fun findStaff(index: Int): Staff? {
+        return if (Utilities.isValidListIndex(index, staffs)) {
+            staffs[index]
+        } else null
+    }
+
+    fun findStudent(index: Int): Student? {
+        return if (Utilities.isValidListIndex(index, students)) {
+            students[index]
+        } else null
+    }
+
+    fun findGrade(index: Int): Grade? {
+        return if (Utilities.isValidListIndex(index, grades)) {
+            grades[index]
+        } else null
+    }
+
+    fun findTeacher(index: Int): Teacher? {
+        return if (Utilities.isValidListIndex(index, teachers)) {
+            teachers[index]
+        } else null
+    }
 
     @Throws(Exception::class)
     fun load() {
