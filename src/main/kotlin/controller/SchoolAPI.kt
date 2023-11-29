@@ -109,11 +109,50 @@ class SchoolAPI(studentSerializerType: XMLSerializer,
         }
     }
 
+    fun updateGrade(gradeToUpdate: Int, grade: Grade): Boolean{
+        val foundGrade = findGrade(gradeToUpdate)
+
+        if ((foundGrade != null) && (grade != null)){
+            foundGrade.student = grade.student
+            foundGrade.english = grade.english
+            foundGrade.maths = grade.maths
+            foundGrade.geography = grade.geography
+            foundGrade.history = grade.history
+            foundGrade.civics = grade.civics
+            foundGrade.irish = grade.irish
+            return true
+        } else {
+            return false
+        }
+    }
+
+    fun updateTeacher(teacherToUpdate: Int, teacher: Teacher): Boolean{
+        val foundTeacher = findTeacher(teacherToUpdate)
+
+        if ((foundTeacher != null) && (teacher != null)){
+            foundTeacher.staff = teacher.staff
+            foundTeacher.subjects = teacher.subjects
+            foundTeacher.classroom = teacher.classroom
+            foundTeacher.yearsWithSchool = teacher.yearsWithSchool
+            foundTeacher.jobTitle = teacher.jobTitle
+            foundTeacher.childSafety = teacher.childSafety
+            return true
+        } else {
+            return false
+        }
+    }
+
     fun isValidStaffId(index: Int): Boolean {
         return Utilities.isValidListIndex(index, staffs) }
 
     fun isValidStudentId(index: Int): Boolean {
         return Utilities.isValidListIndex(index, students) }
+
+    fun isValidGradeId(index: Int): Boolean {
+        return Utilities.isValidListIndex(index, grades) }
+
+    fun isValidTeacherId(index: Int): Boolean {
+        return Utilities.isValidListIndex(index, teachers) }
 
     fun findStaff(index: Int): Staff? {
         return if (Utilities.isValidListIndex(index, staffs)) {

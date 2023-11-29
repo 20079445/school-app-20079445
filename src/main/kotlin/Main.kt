@@ -182,8 +182,8 @@ fun update() {
         when (option) {
             1 -> updateStaff()
             2 -> updateStudent()
-            3 -> countGrade()
-            4 -> countGrade()
+            3 -> updateGrade()
+            4 -> updateTeacher()
             else -> println("Invalid option entered: $option");
         }
     } else {
@@ -314,6 +314,7 @@ fun updateStudent(){
     listStudent()
     if (schoolAPI.countAllStudent() > 0){
         val studentToUpdate = readNextInt("Enter the ID of the student you want to update: ")
+
         if (schoolAPI.isValidStudentId(studentToUpdate)){
             val studentName = readNextLine("Enter the full name of the student: ")
             val studentId = readNextInt("Enter the students ID: ")
@@ -325,6 +326,47 @@ fun updateStudent(){
                 println("Student updated successfully")
             } else{
                 println("Failed to update student details")
+            }
+        } } }
+
+fun updateGrade(){
+    listGrade()
+    if (schoolAPI.countAllGrade() > 0){
+        val gradeToUpdate = readNextInt("Enter the ID of the students grades you want to update: ")
+
+        if (schoolAPI.isValidGradeId(gradeToUpdate)){
+        val studentId = readNextInt("Enter the ID of the student you want to assign their grades to: ")
+        val English = readNextInt("Enter the students grade for English: ")
+        val Maths = readNextInt("Enter the students grade for Maths: ")
+        val Geography = readNextInt("Enter the students grade for Geography: ")
+        val History = readNextInt("Enter the students grade for History: ")
+        val Civics = readNextInt("Enter the students grade for Civics: ")
+        val Irish = readNextInt("Enter the students grade for Irish: ")
+
+        if (schoolAPI.updateGrade(gradeToUpdate, Grade(studentId, English, Maths, Geography, History, Civics, Irish))){
+            println("Grades updated successfully")
+        } else{
+            println("Failed to update Grade entries")
+        }
+    } } }
+
+fun updateTeacher(){
+    listTeacher()
+    if (schoolAPI.countAllTeacher() > 0){
+        val teacherToUpdate = readNextInt("Enter the ID of the staff teacher you want to update: ")
+
+        if (schoolAPI.isValidTeacherId(teacherToUpdate)){
+            val teacherId = readNextInt("Enter the ID of the teacher: ")
+            val subjectsTeaching = readNextLine("Enter the subjects this teacher teaches: ")
+            val classroomNumber = readNextInt("Enter their classroom number: ")
+            val yearsWithTheSchool = readNextInt("Enter the number of years with the school: ")
+            val title = readNextLine("Enter the teachers official job title: ")
+            val childSafety = readNextLine("Enter if this teacher is a child safety officer: ")
+
+            if (schoolAPI.updateTeacher(teacherToUpdate, Teacher(teacherId, subjectsTeaching, classroomNumber, yearsWithTheSchool, title, childSafety))){
+                println("Teacher updated successfully")
+            } else{
+                println("Failed to update Teacher details")
             }
         }
     }
