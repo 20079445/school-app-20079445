@@ -11,10 +11,9 @@ import java.io.File
 
 private val logger = KotlinLogging.logger {}
 
-val serializer = XMLSerializer(File("Student.xml"),File("Staff.xml"))
-val serializer2 = XMLSerializer(File("Student.xml"),File("Staff.xml"))
+val serializer = XMLSerializer(File("Student.xml"), File("Staff.xml"))
 
-val schoolAPI = SchoolAPI(serializer, serializer2)
+val schoolAPI = SchoolAPI(serializer)
 
 private const val ANSI_RESET = "\u001B[0m"
 private const val ANSI_CYAN = "\u001B[36m"

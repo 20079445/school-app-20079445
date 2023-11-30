@@ -17,10 +17,7 @@ class XMLSerializer(private val staffFile: File, private val studentFile: File) 
     @Throws(Exception::class)
     override fun readStaff(): Any {
         val xStream = XStream(DomDriver())
-        xStream.allowTypes(arrayOf(Student::class.java))
         xStream.allowTypes(arrayOf(Staff::class.java))
-        xStream.allowTypes(arrayOf(Grade::class.java))
-        xStream.allowTypes(arrayOf(Teacher::class.java))
         val inputStaffStream = xStream.createObjectInputStream(FileReader(staffFile))
         val obj = inputStaffStream.readObject() as Any
         inputStaffStream.close()

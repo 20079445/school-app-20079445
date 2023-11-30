@@ -11,16 +11,15 @@ import java.io.File
 
 private val logger = KotlinLogging.logger {}
 
-class SchoolAPI(studentSerializer: XMLSerializer,
-                staffSerializer: XMLSerializer) {
+class SchoolAPI(serializer: XMLSerializer) {
 
     private var students = ArrayList<Student>()
     private var staffs = ArrayList<Staff>()
     private var grades = ArrayList<Grade>()
     private var teachers = ArrayList<Teacher>()
 
-    private var studentSerializer: XMLSerializer = studentSerializer
-    private var staffSerializer: XMLSerializer = staffSerializer
+    private var studentSerializer: XMLSerializer = serializer
+    private var staffSerializer: XMLSerializer = serializer
 
     var isAddStudentUsed = false
     var isAddStaffUsed = false
