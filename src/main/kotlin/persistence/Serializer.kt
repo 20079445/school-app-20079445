@@ -2,8 +2,14 @@ package persistence
 
 interface Serializer<T> {
     @Throws(Exception::class)
-    fun write(obj: Any?)
+    fun writeStaff(obj: Any?)
 
     @Throws(Exception::class)
-    fun read(): Any?
+    fun writeStudent(obj: Any?)
+
+    @Throws(Exception::class)
+    fun readStaff(): Any?
+
+    @Throws(Exception::class)
+    fun readStudent(): Any?
 }

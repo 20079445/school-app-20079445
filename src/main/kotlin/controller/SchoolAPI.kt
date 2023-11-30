@@ -12,9 +12,7 @@ import java.io.File
 private val logger = KotlinLogging.logger {}
 
 class SchoolAPI(studentSerializer: XMLSerializer,
-                staffSerializer: XMLSerializer,
-                gradeSerializer: XMLSerializer,
-                teacherSerializer: XMLSerializer) {
+                staffSerializer: XMLSerializer) {
 
     private var students = ArrayList<Student>()
     private var staffs = ArrayList<Staff>()
@@ -23,8 +21,6 @@ class SchoolAPI(studentSerializer: XMLSerializer,
 
     private var studentSerializer: XMLSerializer = studentSerializer
     private var staffSerializer: XMLSerializer = staffSerializer
-    private var gradeSerializer: XMLSerializer = gradeSerializer
-    private var teacherSerializer: XMLSerializer = teacherSerializer
 
     var isAddStudentUsed = false
     var isAddStaffUsed = false
@@ -205,20 +201,12 @@ class SchoolAPI(studentSerializer: XMLSerializer,
     fun load() {
         logger.info("Loading data...")
         if (isAddStudentUsed) {
-            students = studentSerializer.read() as ArrayList<Student>
+            students = studentSerializer.readStudent() as ArrayList<Student>
             println("Loaded Students:\n${listAllStudents()}")
         }
         if (isAddStaffUsed) {
-            staffs = staffSerializer.read() as ArrayList<Staff>
+            staffs = staffSerializer.readStaff() as ArrayList<Staff>
             println("Loaded Staff:\n${listAllStaff()}")
-        }
-        if (isAddGradeUsed) {
-            grades = gradeSerializer.read() as ArrayList<Grade>
-            println("Loaded Grades:\n${listAllGrades()}")
-        }
-        if (isAddTeacherUsed) {
-            teachers = teacherSerializer.read() as ArrayList<Teacher>
-            println("Loaded Teachers:\n${listAllTeachers()}")
         }
         logger.info("Data loaded successfully.")
     }
@@ -227,21 +215,13 @@ class SchoolAPI(studentSerializer: XMLSerializer,
     fun store() {
         logger.info("Storing data...")
         if (students != null) {
-            studentSerializer.write(students)
+            studentSerializer.writeStudent(students)
         } else {
             logger.warn("Students list is empty. Skipping storing student.xml.") }
         if (staffs != null) {
-            staffSerializer.write(staffs)
+            staffSerializer.writeStaff(staffs)
         } else {
             logger.warn("Staffs list is empty. Skipping storing Staff.xml.") }
-        if (grades != null) {
-            gradeSerializer.write(grades)
-        } else {
-            logger.warn("Grades list is empty. Skipping storing Grade.xml.") }
-        if (teachers != null) {
-            teacherSerializer.write(teachers)
-        } else {
-            logger.warn("Teachers list is empty. Skipping storing Teacher.xml.") }
         logger.info("Data stored successfully.")
     }
 }

@@ -11,12 +11,10 @@ import java.io.File
 
 private val logger = KotlinLogging.logger {}
 
-val studentSerializer = XMLSerializer(File("Student.xml"))
-val staffSerializer = XMLSerializer(File("Staff.xml"))
-val gradeSerializer = XMLSerializer(File("Grade.xml"))
-val teacherSerializer = XMLSerializer(File("Teacher.xml"))
+val serializer = XMLSerializer(File("Student.xml"),File("Staff.xml"))
+val serializer2 = XMLSerializer(File("Student.xml"),File("Staff.xml"))
 
-val schoolAPI = SchoolAPI(studentSerializer, staffSerializer, gradeSerializer, teacherSerializer)
+val schoolAPI = SchoolAPI(serializer, serializer2)
 
 private const val ANSI_RESET = "\u001B[0m"
 private const val ANSI_CYAN = "\u001B[36m"
@@ -38,6 +36,7 @@ fun mainMenu(): Int {
 >          |   ${ANSI_CYAN}3)   Count Entry${ANSI_RESET}              |
 >          |   ${ANSI_CYAN}4)   Update Details${ANSI_RESET}           |
 >          |   ${ANSI_CYAN}5)   Delete Entry${ANSI_RESET}             |
+>          |   ${ANSI_CYAN}5)   Placeholder${ANSI_RESET}              |
 > -----------------------------------
 >          |   ${ANSI_GREEN}20) Save Entries${ANSI_RESET}              |
 >          |   ${ANSI_GREEN}21) Load Entries${ANSI_RESET}              |

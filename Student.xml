@@ -1,12 +1,12 @@
 <object-stream>
   <list>
-    <model.Student>
+    <model.Staff>
       <name>test</name>
-      <studentId>11</studentId>
-      <year>1</year>
-      <address>1</address>
-      <record>1</record>
-      <grades/>
-    </model.Student>
+      <staffId>1</staffId>
+      <staffAddress>1</staffAddress>
+      <staffPhone>1</staffPhone>
+      <typeOfStaff>1</typeOfStaff>
+      <teachers/>
+    </model.Staff>
   </list>
 </object-stream>
