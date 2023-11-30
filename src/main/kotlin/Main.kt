@@ -11,7 +11,7 @@ import java.io.File
 
 private val logger = KotlinLogging.logger {}
 
-val studentSerializer = XMLSerializer(File("student.xml"))
+val studentSerializer = XMLSerializer(File("Student.xml"))
 val staffSerializer = XMLSerializer(File("Staff.xml"))
 val gradeSerializer = XMLSerializer(File("Grade.xml"))
 val teacherSerializer = XMLSerializer(File("Teacher.xml"))

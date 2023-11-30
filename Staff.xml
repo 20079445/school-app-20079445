@@ -6,7 +6,16 @@
       <staffAddress>1</staffAddress>
       <staffPhone>1</staffPhone>
       <typeOfStaff>1</typeOfStaff>
-      <teachers/>
+      <teachers>
+        <model.Teacher>
+          <staff>1</staff>
+          <subjects>1</subjects>
+          <classroom>1</classroom>
+          <yearsWithSchool>1</yearsWithSchool>
+          <jobTitle>1</jobTitle>
+          <childSafety></childSafety>
+        </model.Teacher>
+      </teachers>
     </model.Staff>
   </list>
 </object-stream>
