@@ -7,23 +7,24 @@ import model.Teacher
 import persistence.XMLSerializer
 import mu.KotlinLogging
 import utils.Utilities
+import java.io.File
 
 private val logger = KotlinLogging.logger {}
 
-class SchoolAPI(studentSerializerType: XMLSerializer,
-                staffSerializerType: XMLSerializer,
-                gradeSerializerType: XMLSerializer,
-                teacherSerializerType: XMLSerializer) {
+class SchoolAPI(studentSerializer: XMLSerializer,
+                staffSerializer: XMLSerializer,
+                gradeSerializer: XMLSerializer,
+                teacherSerializer: XMLSerializer) {
 
     private var students = ArrayList<Student>()
     private var staffs = ArrayList<Staff>()
     private var grades = ArrayList<Grade>()
     private var teachers = ArrayList<Teacher>()
 
-    private var studentSerializer: XMLSerializer = studentSerializerType
-    private var staffSerializer: XMLSerializer = staffSerializerType
-    private var gradeSerializer: XMLSerializer = gradeSerializerType
-    private var teacherSerializer: XMLSerializer = teacherSerializerType
+    private var studentSerializer: XMLSerializer = studentSerializer
+    private var staffSerializer: XMLSerializer = staffSerializer
+    private var gradeSerializer: XMLSerializer = gradeSerializer
+    private var teacherSerializer: XMLSerializer = teacherSerializer
 
     var isAddStudentUsed = false
     var isAddStaffUsed = false
@@ -203,23 +204,44 @@ class SchoolAPI(studentSerializerType: XMLSerializer,
     @Throws(Exception::class)
     fun load() {
         logger.info("Loading data...")
-        val test = true
-        when(test){
-            isAddStudentUsed -> students = studentSerializer.read() as ArrayList<Student>
-            isAddStaffUsed -> staffs = staffSerializer.read() as ArrayList<Staff>
-            isAddGradeUsed -> grades = gradeSerializer.read() as ArrayList<Grade>
-            isAddTeacherUsed -> teachers = teacherSerializer.read() as ArrayList<Teacher>
-            else -> println("There is nothing to load")
+        if (isAddStudentUsed) {
+            students = studentSerializer.read() as ArrayList<Student>
+            println("Loaded Students:\n${listAllStudents()}")
         }
+        if (isAddStaffUsed) {
+            staffs = staffSerializer.read() as ArrayList<Staff>
+            println("Loaded Staff:\n${listAllStaff()}")
+        }
+        if (isAddGradeUsed) {
+            grades = gradeSerializer.read() as ArrayList<Grade>
+            println("Loaded Grades:\n${listAllGrades()}")
+        }
+        if (isAddTeacherUsed) {
+            teachers = teacherSerializer.read() as ArrayList<Teacher>
+            println("Loaded Teachers:\n${listAllTeachers()}")
+        }
+        logger.info("Data loaded successfully.")
     }
 
     @Throws(Exception::class)
     fun store() {
         logger.info("Storing data...")
-        studentSerializer.write(students)
-        staffSerializer.write(staffs)
-        gradeSerializer.write(grades)
-        teacherSerializer.write(teachers)
+        if (students != null) {
+            studentSerializer.write(students)
+        } else {
+            logger.warn("Students list is empty. Skipping storing student.xml.") }
+        if (staffs != null) {
+            staffSerializer.write(staffs)
+        } else {
+            logger.warn("Staffs list is empty. Skipping storing Staff.xml.") }
+        if (grades != null) {
+            gradeSerializer.write(grades)
+        } else {
+            logger.warn("Grades list is empty. Skipping storing Grade.xml.") }
+        if (teachers != null) {
+            teacherSerializer.write(teachers)
+        } else {
+            logger.warn("Teachers list is empty. Skipping storing Teacher.xml.") }
         logger.info("Data stored successfully.")
     }
 }

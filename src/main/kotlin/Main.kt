@@ -10,10 +10,13 @@ import utils.ScannerInput.readNextLine
 import java.io.File
 
 private val logger = KotlinLogging.logger {}
-private val schoolAPI = SchoolAPI(XMLSerializer(File("student.xml")),
-                                  XMLSerializer(File("Staff.xml")),
-                                  XMLSerializer(File("Grade.xml")),
-                                  XMLSerializer(File("Teacher.xml")))
+
+val studentSerializer = XMLSerializer(File("student.xml"))
+val staffSerializer = XMLSerializer(File("Staff.xml"))
+val gradeSerializer = XMLSerializer(File("Grade.xml"))
+val teacherSerializer = XMLSerializer(File("Teacher.xml"))
+
+val schoolAPI = SchoolAPI(studentSerializer, staffSerializer, gradeSerializer, teacherSerializer)
 
 private const val ANSI_RESET = "\u001B[0m"
 private const val ANSI_CYAN = "\u001B[36m"
@@ -255,6 +258,7 @@ fun addStaff(){
                                                      staffPhone, staffType))
 
     if (isAdded){
+        schoolAPI.isAddStaffUsed = true
         val successMessage = "Staff added successfully"
         printCentered(successMessage)
     } else{
@@ -273,6 +277,7 @@ fun addStudent(){
     val isAdded : Boolean = schoolAPI.addStudent(Student(studentName, studentId, studentYear,
                                         studentAddress, studentRecord))
     if (isAdded){
+        schoolAPI.isAddStudentUsed = true
         println("Student added successfully")
     } else{
         println("Failed to add student details")
@@ -292,6 +297,7 @@ fun addGrades(){
         History, Civics, Irish))
 
     if (isAdded){
+        schoolAPI.isAddGradeUsed = true
         println("Grades added successfully")
     } else{
         println("Failed to add Grade entries")
@@ -310,6 +316,7 @@ fun addTeacher(){
                                                 yearsWithTheSchool, title, childSafety))
 
     if (isAdded){
+        schoolAPI.isAddTeacherUsed = true
         println("Teacher added successfully")
     } else{
         println("Failed to add Teacher details")
