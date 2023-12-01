@@ -138,13 +138,13 @@ class SchoolAPI(serializer: XMLSerializer) {
         }
     }
 
-    fun deleteStaff(staffIdToDelete: Int): Any {
+    fun deleteStaff(staffIdToDelete: Int): Staff? {
         val staffToDelete = staffs.find { it.staffId == staffIdToDelete }
         return if (staffToDelete != null) {
             staffs.remove(staffToDelete)
             staffToDelete
         } else {
-            return "No Staff entry with this ID try again"
+            return null
         }
     }
 
@@ -195,6 +195,30 @@ class SchoolAPI(serializer: XMLSerializer) {
         return grades.find { it.student == studentId } }
     fun findTeacher(teacherId: Int): Teacher? {
         return teachers.find { it.staff == teacherId } }
+
+    fun teacherTimetable(){
+        """
+        ----------------------------------------------------------------------
+        |                                                                    |
+        |--------------------------------------------------------------------|
+        |                                                                    |
+        |--------------------------------------------------------------------|
+        |                                                                    |
+        |--------------------------------------------------------------------|
+        |                                                                    |
+        |--------------------------------------------------------------------|
+        |                                                                    |
+        |--------------------------------------------------------------------|
+        |                                                                    |
+        |--------------------------------------------------------------------|
+        |                                                                    |
+        |--------------------------------------------------------------------|
+        """.trimIndent()
+    }
+
+    fun studentTimetable(){
+
+    }
 
     @Throws(Exception::class)
     fun load() {
