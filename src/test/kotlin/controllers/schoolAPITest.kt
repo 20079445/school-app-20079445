@@ -10,6 +10,7 @@ import java.io.File
 import kotlin.test.assertEquals
 
 class SchoolAPITest() {
+
     private var learnKotlin: Staff? = null
     private var summerHoliday: Staff? = null
     private var codeApp: Staff? = null
@@ -17,6 +18,14 @@ class SchoolAPITest() {
     private var swim: Staff? = null
     private var populatedStaff: SchoolAPI? = SchoolAPI(XMLSerializer(File("Staff.xml"), File("Student.xml")))
     private var emptyStaff: SchoolAPI? = SchoolAPI(XMLSerializer(File("Staff.xml"), File("Student.xml")))
+
+    private var learnKotlin2: Student? = null
+    private var summerHoliday2: Student? = null
+    private var codeApp2: Student? = null
+    private var testApp2: Student? = null
+    private var swim2: Student? = null
+    private var populatedStudent: SchoolAPI? = SchoolAPI(XMLSerializer(File("Staff.xml"), File("Student.xml")))
+    private var emptyStudent: SchoolAPI? = SchoolAPI(XMLSerializer(File("Staff.xml"), File("Student.xml")))
 
 
     @BeforeEach
@@ -26,6 +35,8 @@ class SchoolAPITest() {
         codeApp = Staff("Code App", 4, "Work", 0, 0)
         testApp = Staff("Test App", 2, "Work", 0, 0)
         swim = Staff("Swim - Pool", 3, "Hobby", 0, 0)
+
+        learnKotlin2 = Student("test1", 1, "")
 
 
         populatedStaff!!.addStaff(learnKotlin!!)
