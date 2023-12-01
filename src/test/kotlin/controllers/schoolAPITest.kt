@@ -36,7 +36,11 @@ class SchoolAPITest() {
         testApp = Staff("Test App", 2, "Work", 0, 0)
         swim = Staff("Swim - Pool", 3, "Hobby", 0, 0)
 
-        learnKotlin2 = Student("test1", 1, "")
+        learnKotlin2 = Student("name1", 1, 1, 1,"address1","record1")
+        summerHoliday2 = Student("name2",2,1,1,"address2","record2")
+        codeApp2 = Student("name3",3,1,1,"address3","record3")
+        testApp2 = Student("name4",4,1,1,"address4","record4")
+        swim2 = Student("name5",5,1,1,"address5","record5")
 
 
         populatedStaff!!.addStaff(learnKotlin!!)
@@ -44,6 +48,13 @@ class SchoolAPITest() {
         populatedStaff!!.addStaff(codeApp!!)
         populatedStaff!!.addStaff(testApp!!)
         populatedStaff!!.addStaff(swim!!)
+
+        populatedStudent!!.addStudent(learnKotlin2!!)
+        populatedStudent!!.addStudent(summerHoliday2!!)
+        populatedStudent!!.addStudent(codeApp2!!)
+        populatedStudent!!.addStudent(testApp2!!)
+        populatedStudent!!.addStudent(swim2!!)
+
     }
 
     @AfterEach
@@ -55,10 +66,19 @@ class SchoolAPITest() {
         swim = null
         populatedStaff = null
         emptyStaff = null
+
+        learnKotlin2 = null
+        summerHoliday2 = null
+        codeApp2 = null
+        testApp2 = null
+        swim2 = null
+        populatedStudent = null
+        emptyStudent = null
+
     }
 
     @Nested
-    inner class AddStaff {
+    inner class Add {
         @Test
         fun `adding a staff entry to a populated list adds to ArrayList`() {
             val newStaff = Staff("Study Lambdas", 6, "College", 0, 0)
@@ -76,10 +96,29 @@ class SchoolAPITest() {
             assertEquals(1, emptyStaff!!.countAllStaff())
             assertEquals(newStaff, emptyStaff!!.findStaff(1))
         }
+
+        @Test
+        fun `adding a student entry to a populated list adds to ArrayList`() {
+            val newStudent = Student("name1", 6, 1, 0, "address1", "record1")
+            assertEquals(0, populatedStudent!!.countAllStaff())
+            assertTrue(populatedStudent!!.addStudent(newStudent))
+            assertEquals(6, populatedStudent!!.countAllStudent())
+            assertEquals(newStudent, populatedStudent!!.findStudent(6))
+        }
+
+        @Test
+        fun `adding a student entry to an empty list`() {
+            val newStudent = Student("name1", 1, 1, 0, "address1", "record1")
+            assertEquals(0, emptyStudent!!.countAllStaff())
+            assertTrue(emptyStudent!!.addStudent(newStudent))
+            assertEquals(1, emptyStudent!!.countAllStudent())
+            assertEquals(newStudent, emptyStudent!!.findStudent(1))
+        }
+
     }
 
     @Nested
-    inner class ListNotes {
+    inner class List {
 
         @Test
         fun `listAllStaff returns No staff entries Stored message when ArrayList is empty`() {
@@ -97,10 +136,28 @@ class SchoolAPITest() {
             assertTrue(notesString.contains("swim"))
             assertTrue(notesString.contains("summer holiday"))
         }
+
+        @Test
+        fun `listAllStudents returns No student entries Stored message when ArrayList is empty`() {
+            assertEquals(0, emptyStudent!!.countAllStudent())
+            assertTrue(emptyStudent!!.countAllStudent() == 0)
+        }
+
+        @Test
+        fun `listAllStudents returns student entries when ArrayList has entries stored`() {
+            assertEquals(5, populatedStudent!!.countAllStudent())
+            val notesString = populatedStudent!!.listAllStudents().lowercase()
+            assertTrue(notesString.contains("name1"))
+            assertTrue(notesString.contains("name2"))
+            assertTrue(notesString.contains("name3"))
+            assertTrue(notesString.contains("name4"))
+            assertTrue(notesString.contains("name5"))
+        }
+
     }
 
     @Nested
-    inner class DeleteNotes {
+    inner class Delete {
 
         @Test
         fun `deleting a staff entry that does not exist, returns null`() {
@@ -117,10 +174,26 @@ class SchoolAPITest() {
             assertEquals(learnKotlin, populatedStaff!!.deleteStaff(5))
             assertEquals(3, populatedStaff!!.countAllStaff())
         }
+
+        @Test
+        fun `deleting a student entry that does not exist, returns null`() {
+            assertNull(emptyStudent!!.deleteStudent(0))
+            assertNull(populatedStudent!!.deleteStudent(-1))
+            assertNull(populatedStudent!!.deleteStudent(9))
+        }
+
+        @Test
+        fun `deleting a student entry that exists deletes and returns deleted object`() {
+            assertEquals(5, populatedStudent!!.countAllStudent())
+            assertEquals(swim2, populatedStudent!!.deleteStudent(5))
+            assertEquals(4, populatedStudent!!.countAllStudent())
+            assertEquals(learnKotlin2, populatedStudent!!.deleteStudent(1))
+            assertEquals(3, populatedStudent!!.countAllStudent())
+        }
     }
 
     @Nested
-    inner class UpdateNotes {
+    inner class Update {
         @Test
         fun `updating a staff entry that does not exist returns false`(){
             assertFalse(populatedStaff!!.updateStaff(6, Staff("Updating staff", 2, "Work", 0,0)))
@@ -139,6 +212,26 @@ class SchoolAPITest() {
             assertEquals(1, populatedStaff?.findStaff(1)?.staffId)
             assertEquals("Summer Holiday to France", populatedStaff?.findStaff(1)?.name)
             assertEquals("Hobby", populatedStaff?.findStaff(3)?.staffAddress)
+        }
+
+        @Test
+        fun `updating a student entry that does not exist returns false`(){
+            assertFalse(populatedStudent!!.updateStudent(6, Student("Updating student", 2, 2, 0,"address", "record")))
+            assertFalse(populatedStudent!!.updateStudent(-1, Student("Updating student", 2, 2, 0,"address", "record")))
+            assertFalse(emptyStudent!!.updateStudent(0, Student("Updating student", 2, 2, 0, "address", "record")))
+        }
+
+        @Test
+        fun `updating a student entry that exists returns true and updates`() {
+            assertEquals(swim2, populatedStudent?.findStudent(5))
+            assertEquals(2, populatedStudent?.findStudent(2)?.studentId)
+            assertEquals("name4", populatedStudent?.findStudent(4)?.name)
+            assertEquals("address4", populatedStudent?.findStudent(4)?.address)
+
+            assertTrue(populatedStudent?.updateStudent(4, Student("Updating student", 2, 2, 0, "address", "record"))?: false)
+            assertEquals(1, populatedStudent?.findStudent(1)?.studentId)
+            assertEquals("name1", populatedStudent?.findStudent(1)?.name)
+            assertEquals("address3", populatedStudent?.findStudent(3)?.address)
         }
     }
 }

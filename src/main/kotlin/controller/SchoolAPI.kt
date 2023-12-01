@@ -148,13 +148,13 @@ class SchoolAPI(serializer: XMLSerializer) {
         }
     }
 
-    fun deleteStudent(studentToDelete: Int): Any{
+    fun deleteStudent(studentToDelete: Int): Student?{
         val studentToDelete = students.find { it.studentId == studentToDelete }
         return if (studentToDelete != null){
             students.remove(studentToDelete)
             studentToDelete
         } else {
-            return "No Student entry with this ID try again"
+            return null
         }
     }
 
