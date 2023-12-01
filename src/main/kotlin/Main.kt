@@ -11,7 +11,7 @@ import java.io.File
 
 private val logger = KotlinLogging.logger {}
 
-val serializer = XMLSerializer(File("Student.xml"), File("Staff.xml"))
+val serializer = XMLSerializer(File("Staff.xml"), File("Student.xml"))
 
 val schoolAPI = SchoolAPI(serializer)
 
@@ -43,7 +43,7 @@ fun mainMenu(): Int {
 > -----------------------------------
 > ==>> """.trimMargin(">")
 
-    val terminalWidth = 400
+    val terminalWidth = 100
     val centeredMenu = menu.lines().joinToString("\n") { line ->
         val spacesNeeded = (terminalWidth - line.length) / 2
         " ".repeat(spacesNeeded) + line
@@ -79,7 +79,7 @@ fun add() {
                  > |   4)   Add Teacher details     |
                   > --------------------------------
          > ==>> """.trimMargin(">")
-        val terminalWidth = 400
+        val terminalWidth = 100
         val centeredSubMenu = subMenu.lines().joinToString("\n") { line ->
             val spacesNeeded = (terminalWidth - line.length) / 2
             " ".repeat(spacesNeeded) + line
@@ -111,7 +111,7 @@ fun list() {
                   > --------------------------------
          > ==>> """.trimMargin(">")
 
-        val terminalWidth = 400
+        val terminalWidth = 100
         val centeredSubMenu = subMenu.lines().joinToString("\n") { line ->
             val spacesNeeded = (terminalWidth - line.length) / 2
             " ".repeat(spacesNeeded) + line
@@ -142,7 +142,7 @@ fun count() {
                   > --------------------------------
          > ==>> """.trimMargin(">")
 
-        val terminalWidth = 400
+        val terminalWidth = 100
         val centeredSubMenu = subMenu.lines().joinToString("\n") { line ->
             val spacesNeeded = (terminalWidth - line.length) / 2
             " ".repeat(spacesNeeded) + line
@@ -173,7 +173,7 @@ fun update() {
                   > --------------------------------
          > ==>> """.trimMargin(">")
 
-        val terminalWidth = 400
+        val terminalWidth = 100
         val centeredSubMenu = subMenu.lines().joinToString("\n") { line ->
             val spacesNeeded = (terminalWidth - line.length) / 2
             " ".repeat(spacesNeeded) + line
@@ -204,7 +204,7 @@ fun delete() {
                   > --------------------------------
          > ==>> """.trimMargin(">")
 
-        val terminalWidth = 400
+        val terminalWidth = 100
         val centeredSubMenu = subMenu.lines().joinToString("\n") { line ->
             val spacesNeeded = (terminalWidth - line.length) / 2
             " ".repeat(spacesNeeded) + line
@@ -225,7 +225,7 @@ fun delete() {
 }
 
 fun printCentered(text: String) {
-    val terminalWidth = 400
+    val terminalWidth = 100
     val spacesNeeded = (terminalWidth - text.length) / 2
     val centeredText = " ".repeat(spacesNeeded) + text
     println(centeredText)
@@ -468,7 +468,6 @@ fun save() {
         schoolAPI.store()
     } catch (e: Exception) {
         System.err.println("Error writing to file: $e")
-        throw e
     }
 }
 
@@ -477,7 +476,6 @@ fun load() {
         schoolAPI.load()
     } catch (e: Exception) {
         System.err.println("Error reading from file: $e")
-        throw e
     }
 }
 

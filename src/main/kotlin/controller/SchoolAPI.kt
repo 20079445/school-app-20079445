@@ -199,14 +199,10 @@ class SchoolAPI(serializer: XMLSerializer) {
     @Throws(Exception::class)
     fun load() {
         logger.info("Loading data...")
-        if (isAddStudentUsed) {
             students = studentSerializer.readStudent() as ArrayList<Student>
             println("Loaded Students:\n${listAllStudents()}")
-        }
-        if (isAddStaffUsed) {
             staffs = staffSerializer.readStaff() as ArrayList<Staff>
             println("Loaded Staff:\n${listAllStaff()}")
-        }
         logger.info("Data loaded successfully.")
     }
 
