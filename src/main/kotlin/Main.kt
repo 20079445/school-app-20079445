@@ -20,6 +20,8 @@ private const val ANSI_CYAN = "\u001B[36m"
 private const val ANSI_GREEN = "\u001B[32m"
 private const val ANSI_RED = "\u001B[31m"
 
+var width = 100
+
 fun main(args: Array<String>) {
     runMenu()
 }
@@ -35,7 +37,7 @@ fun mainMenu(): Int {
 >          |   ${ANSI_CYAN}3)   Count Entry${ANSI_RESET}              |
 >          |   ${ANSI_CYAN}4)   Update Details${ANSI_RESET}           |
 >          |   ${ANSI_CYAN}5)   Delete Entry${ANSI_RESET}             |
->          |   ${ANSI_CYAN}5)   Placeholder${ANSI_RESET}              |
+>          |   ${ANSI_CYAN}5)   TimeTable${ANSI_RESET}                |
 > -----------------------------------
 >          |   ${ANSI_GREEN}20) Save Entries${ANSI_RESET}              |
 >          |   ${ANSI_GREEN}21) Load Entries${ANSI_RESET}              |
@@ -43,7 +45,7 @@ fun mainMenu(): Int {
 > -----------------------------------
 > ==>> """.trimMargin(">")
 
-    val terminalWidth = 100
+    val terminalWidth = width
     val centeredMenu = menu.lines().joinToString("\n") { line ->
         val spacesNeeded = (terminalWidth - line.length) / 2
         " ".repeat(spacesNeeded) + line
@@ -61,6 +63,7 @@ fun runMenu() {
             3 -> count()
             4 -> update()
             5 -> delete()
+            6 -> timetable()
             20 -> save()
             21 -> load()
             0 -> exitApp()
@@ -79,7 +82,7 @@ fun add() {
                  > |   4)   Add Teacher details     |
                   > --------------------------------
          > ==>> """.trimMargin(">")
-        val terminalWidth = 100
+        val terminalWidth = width
         val centeredSubMenu = subMenu.lines().joinToString("\n") { line ->
             val spacesNeeded = (terminalWidth - line.length) / 2
             " ".repeat(spacesNeeded) + line
@@ -111,7 +114,7 @@ fun list() {
                   > --------------------------------
          > ==>> """.trimMargin(">")
 
-        val terminalWidth = 100
+        val terminalWidth = width
         val centeredSubMenu = subMenu.lines().joinToString("\n") { line ->
             val spacesNeeded = (terminalWidth - line.length) / 2
             " ".repeat(spacesNeeded) + line
@@ -142,7 +145,7 @@ fun count() {
                   > --------------------------------
          > ==>> """.trimMargin(">")
 
-        val terminalWidth = 100
+        val terminalWidth = width
         val centeredSubMenu = subMenu.lines().joinToString("\n") { line ->
             val spacesNeeded = (terminalWidth - line.length) / 2
             " ".repeat(spacesNeeded) + line
@@ -173,7 +176,7 @@ fun update() {
                   > --------------------------------
          > ==>> """.trimMargin(">")
 
-        val terminalWidth = 100
+        val terminalWidth = width
         val centeredSubMenu = subMenu.lines().joinToString("\n") { line ->
             val spacesNeeded = (terminalWidth - line.length) / 2
             " ".repeat(spacesNeeded) + line
@@ -204,7 +207,7 @@ fun delete() {
                   > --------------------------------
          > ==>> """.trimMargin(">")
 
-        val terminalWidth = 100
+        val terminalWidth = width
         val centeredSubMenu = subMenu.lines().joinToString("\n") { line ->
             val spacesNeeded = (terminalWidth - line.length) / 2
             " ".repeat(spacesNeeded) + line
@@ -225,7 +228,7 @@ fun delete() {
 }
 
 fun printCentered(text: String) {
-    val terminalWidth = 100
+    val terminalWidth = width
     val spacesNeeded = (terminalWidth - text.length) / 2
     val centeredText = " ".repeat(spacesNeeded) + text
     println(centeredText)
@@ -269,11 +272,12 @@ fun addStudent(){
     val studentName = readNextLineCentered("Enter the full name of the student: ")
     val studentId = readNextIntCentered("Enter the students ID: ")
     val studentYear = readNextIntCentered("Enter the year the student is in: ")
+    val studentClass = readNextIntCentered("Enter the class the student is in: ")
     val studentAddress = readNextLineCentered("Enter the address of the student: ")
     val studentRecord = readNextLineCentered("Enter the students records: ")
 
     val isAdded : Boolean = schoolAPI.addStudent(Student(studentName, studentId, studentYear,
-                                        studentAddress, studentRecord))
+                                                studentClass, studentAddress, studentRecord))
     if (isAdded){
         schoolAPI.isAddStudentUsed = true
         println("Student added successfully")
@@ -306,12 +310,13 @@ fun addTeacher(){
     val teacherId = readNextIntCentered("Enter the ID of the teacher: ")
     val subjectsTeaching = readNextLine("Enter the subjects this teacher teaches: ")
     val classroomNumber = readNextIntCentered("Enter their classroom number: ")
+    val classesAssigned = readNextInt("Enter the classes you are assigned: ")
     val yearsWithTheSchool = readNextIntCentered("Enter the number of years with the school: ")
     val title = readNextLineCentered("Enter the teachers official job title: ")
     val childSafety = readNextLineCentered("Enter if this teacher is a child safety officer: ")
 
     val isAdded : Boolean = schoolAPI.addTeacher(Teacher(teacherId, subjectsTeaching, classroomNumber,
-                                                yearsWithTheSchool, title, childSafety))
+                                                        classesAssigned, yearsWithTheSchool, title, childSafety))
 
     if (isAdded){
         schoolAPI.isAddTeacherUsed = true
@@ -360,10 +365,12 @@ fun updateStudent(){
             val studentName = readNextLineCentered("Enter the full name of the student: ")
             val studentId = readNextIntCentered("Enter the students ID: ")
             val studentYear = readNextIntCentered("Enter the year the student is in: ")
+            val studentClass = readNextIntCentered("Enter the class the student is in: ")
             val studentAddress = readNextLineCentered("Enter the address of the student: ")
             val studentRecord = readNextLineCentered("Enter the students records: ")
 
-            if (schoolAPI.updateStudent(studentToUpdate, Student(studentName, studentId, studentYear, studentAddress, studentRecord))){
+            if (schoolAPI.updateStudent(studentToUpdate, Student(studentName, studentId, studentYear, studentClass,
+                                        studentAddress, studentRecord))){
                 println("Student updated successfully")
             } else{
                 println("Failed to update student details")
@@ -400,11 +407,13 @@ fun updateTeacher(){
             val teacherId = readNextIntCentered("Enter the ID of the teacher: ")
             val subjectsTeaching = readNextLineCentered("Enter the subjects this teacher teaches: ")
             val classroomNumber = readNextIntCentered("Enter their classroom number: ")
+            val classesAssigned = readNextIntCentered("Enter the classes you are assigned: ")
             val yearsWithTheSchool = readNextIntCentered("Enter the number of years with the school: ")
             val title = readNextLineCentered("Enter the teachers official job title: ")
             val childSafety = readNextLineCentered("Enter if this teacher is a child safety officer: ")
 
-            if (schoolAPI.updateTeacher(teacherToUpdate, Teacher(teacherId, subjectsTeaching, classroomNumber, yearsWithTheSchool, title, childSafety))){
+            if (schoolAPI.updateTeacher(teacherToUpdate, Teacher(teacherId, subjectsTeaching, classroomNumber,
+                                                            classesAssigned,yearsWithTheSchool, title, childSafety))){
                 println("Teacher updated successfully")
             } else{
                 println("Failed to update Teacher details")
@@ -462,6 +471,15 @@ fun deleteTeacher(){
             println("Delete not successful")
         }
     } }
+
+fun timetable(){
+    val teacherOrStudent = readNextLineCentered("Are you a Teacher or Student? ")
+    if (teacherOrStudent == "Teacher"){
+       return println(schoolAPI.teacherTimetable())
+    } else if (teacherOrStudent == "Student"){
+        return println(schoolAPI.studentTimetable())
+    }
+}
 
 fun save() {
     try {

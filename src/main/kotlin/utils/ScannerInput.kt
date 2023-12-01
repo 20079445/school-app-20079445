@@ -16,17 +16,6 @@ object ScannerInput {
         } while (true)
     }
 
-    @JvmStatic
-    fun readNextDouble(prompt: String?): Double {
-        do {
-            try {
-                print(prompt)
-                return Scanner(System.`in`).next().toDouble()
-            } catch (e: NumberFormatException) {
-                System.err.println("\tEnter a number please.")
-            }
-        } while (true)
-    }
 
     @JvmStatic
     fun readNextLine(prompt: String?): String {
@@ -34,9 +23,4 @@ object ScannerInput {
         return Scanner(System.`in`).nextLine()
     }
 
-    @JvmStatic
-    fun readNextChar(prompt: String?): Char {
-        print(prompt)
-        return Scanner(System.`in`).next()[0]
-    }
 }
