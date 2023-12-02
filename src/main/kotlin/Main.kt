@@ -1,13 +1,11 @@
 import controller.SchoolAPI
-import model.Grade
-import model.Staff
-import model.Student
-import model.Teacher
+import model.*
 import mu.KotlinLogging
 import persistence.JSONSerializer
 import utils.ScannerInput.readNextInt
 import utils.ScannerInput.readNextLine
 import java.io.File
+import java.util.*
 
 private val logger = KotlinLogging.logger {}
 
@@ -24,7 +22,24 @@ private const val ANSI_RED = "\u001B[31m"
 var width = 100
 
 fun main(args: Array<String>) {
-    runMenu()
+
+    val validUser = User("student1", "password123")
+    val scanner = Scanner(System.`in`)
+    print("Enter username: ")
+    val enteredUsername = scanner.nextLine()
+    print("Enter password: ")
+    val enteredPassword = scanner.nextLine()
+
+    if (isValidCredentials(enteredUsername, enteredPassword, validUser)) {
+        println("Login successful. Welcome, ${validUser.username}!")
+        runMenu()
+    } else {
+        println("Invalid credentials. Access denied.")
+    }
+}
+
+fun isValidCredentials(enteredUsername: String, enteredPassword: String, validUser: User): Boolean {
+    return enteredUsername == validUser.username && enteredPassword == validUser.password
 }
 
 fun mainMenu(): Int {
