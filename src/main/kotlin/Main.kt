@@ -311,9 +311,9 @@ fun addGrades(){
 
 fun addTeacher(){
     val teacherId = readNextIntCentered("Enter the ID of the teacher: ")
-    val subjectsTeaching = readNextLine("Enter the subjects this teacher teaches: ")
+    val subjectsTeaching = readNextLineCentered("Enter the subjects this teacher teaches: ")
     val classroomNumber = readNextIntCentered("Enter their classroom number: ")
-    val classesAssigned = readNextInt("Enter the classes you are assigned: ")
+    val classesAssigned = readNextIntCentered("Enter the classes you are assigned: ")
     val yearsWithTheSchool = readNextIntCentered("Enter the number of years with the school: ")
     val title = readNextLineCentered("Enter the teachers official job title: ")
     val childSafety = readNextLineCentered("Enter if this teacher is a child safety officer: ")
