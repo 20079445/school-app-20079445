@@ -8,4 +8,10 @@ The School App is an application designed to manage student and staff informatio
 
 - Add, view, update and delete student records
 - Add view, update and delete staff records
+- Add view, update and delete Grade records
+- Add view, update and delete Teacher records
+- View a students generated timetable
+- view a students report
+- Some JUnit testing for schoolAPI
 - Store data in XML files
+- Store data in JSON files
