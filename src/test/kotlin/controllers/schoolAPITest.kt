@@ -6,6 +6,7 @@ import controller.SchoolAPI
 import org.junit.jupiter.api.*
 import org.junit.jupiter.api.Assertions.*
 import persistence.XMLSerializer
+import schoolAPI
 import java.io.File
 import kotlin.test.assertEquals
 
@@ -232,6 +233,38 @@ class SchoolAPITest() {
             assertEquals(1, populatedStudent?.findStudent(1)?.studentId)
             assertEquals("name1", populatedStudent?.findStudent(1)?.name)
             assertEquals("address3", populatedStudent?.findStudent(3)?.address)
+        }
+    }
+    @Nested
+    inner class Timetable {
+        @Test
+        fun `generateTimetable for student with staff info`() {
+            val student = Student("John Doe", 1, 1, 0, "123 Main St", "record1")
+            val staffInfo = "Teacher1, Teacher2, Teacher3, Teacher4, Teacher5"
+
+            val timetable = schoolAPI.generateTimetable(student, staffInfo)
+
+            val actualName = timetable.lines()[1].substringAfter("TimeTable:").trim()
+            assertTrue(actualName.contains("John Doe"))
+        }
+
+        @Test
+        fun `generateTimetable for student without staff info`() {
+            val student = Student("Jane Doe", 2, 1, 0, "456 Oak St", "record2")
+            val staffInfo = ""
+
+            val timetable = schoolAPI.generateTimetable(student, staffInfo)
+
+            val actualName = timetable.lines()[1].substringAfter("TimeTable:").trim()
+            assertTrue(actualName.contains("Jane Doe"))
+        }
+
+        @Test
+        fun `getRandomSubject returns a valid subject`() {
+            val subject = schoolAPI.getRandomSubject()
+
+            val validSubjects = listOf("English", "Maths", "Geography", "History", "Civics", "Irish")
+            assert(validSubjects.contains(subject))
         }
     }
 }
