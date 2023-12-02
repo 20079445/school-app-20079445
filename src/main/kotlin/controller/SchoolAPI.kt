@@ -196,32 +196,34 @@ class SchoolAPI(serializer: XMLSerializer) {
     fun findTeacher(teacherId: Int): Teacher? {
         return teachers.find { it.staff == teacherId } }
 
-    fun teacherTimetable(){
-        """
-        ----------------------------------------------------------------------
-        |   TimeTable:                                                       |
-        |--------------------------------------------------------------------|
-        |    Time     |      Subject          |             Teacher          |
-        |--------------------------------------------------------------------|
-        |    9:15     |                       |                              |
-        |--------------------------------------------------------------------|
-        |    10:15    |                       |                              |
-        |--------------------------------------------------------------------|
-        |    11:15    |                       |                              |
-        |--------------------------------------------------------------------|
-        |    12:15    |                       |                              |
-        |--------------------------------------------------------------------|
-        |    13:15    |                       |                              |
-        |--------------------------------------------------------------------|
-        |    14:15    |                       |                              |
-        |--------------------------------------------------------------------|
-        |    15:15    |                       |                              |
-        |--------------------------------------------------------------------|
-        """.trimIndent()
+    fun generateTimetable(student: Student, staffInfo: String): String {
+        val timetable = StringBuilder()
+        val name = student.name
+
+        timetable.appendLine("----------------------------------------------------------------------")
+        timetable.appendLine("|   TimeTable:       $name                                           |")
+        timetable.appendLine("|--------------------------------------------------------------------|")
+        timetable.appendLine("|    Time     |      Subject          |             Teacher          |")
+        timetable.appendLine("|--------------------------------------------------------------------|")
+
+        val timeSlots = listOf("9:15", "10:15", "11:15", "12:15", "13:15", "14:15", "15:15")
+        val staffNames = staffInfo.split(',')
+
+        for (timeSlot in timeSlots) {
+            val randomSubject = getRandomSubject()
+            val randomTeacher = staffNames.random()
+
+            timetable.appendLine("|    $timeSlot    |   ${randomSubject.padEnd(23)} |   ${randomTeacher.padEnd(28)} |")
+            timetable.appendLine("|--------------------------------------------------------------------|")
+        }
+
+        return timetable.toString().trimIndent()
     }
 
-    fun studentTimetable(){
 
+    fun getRandomSubject(): String {
+        val subjects = listOf("English", "Maths", "Geography", "History", "Civics", "Irish")
+        return subjects.random()
     }
 
     @Throws(Exception::class)

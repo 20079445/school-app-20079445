@@ -37,7 +37,7 @@ fun mainMenu(): Int {
 >          |   ${ANSI_CYAN}3)   Count Entry${ANSI_RESET}              |
 >          |   ${ANSI_CYAN}4)   Update Details${ANSI_RESET}           |
 >          |   ${ANSI_CYAN}5)   Delete Entry${ANSI_RESET}             |
->          |   ${ANSI_CYAN}5)   TimeTable${ANSI_RESET}                |
+>          |   ${ANSI_CYAN}6)   TimeTable${ANSI_RESET}                |
 > -----------------------------------
 >          |   ${ANSI_GREEN}20) Save Entries${ANSI_RESET}              |
 >          |   ${ANSI_GREEN}21) Load Entries${ANSI_RESET}              |
@@ -229,7 +229,7 @@ fun delete() {
 
 fun printCentered(text: String) {
     val terminalWidth = width
-    val spacesNeeded = (terminalWidth - text.length) / 2
+    val spacesNeeded = maxOf(0, (terminalWidth - text.length) / 2)
     val centeredText = " ".repeat(spacesNeeded) + text
     println(centeredText)
 }
@@ -472,14 +472,20 @@ fun deleteTeacher(){
         }
     } }
 
-fun timetable(){
-    val teacherOrStudent = readNextLineCentered("Are you a Teacher or Student? ")
-    if (teacherOrStudent == "Teacher"){
-       return println(schoolAPI.teacherTimetable())
-    } else if (teacherOrStudent == "Student"){
-        return println(schoolAPI.studentTimetable())
+fun timetable(): Any {
+    val studentId = readNextIntCentered("Enter your student ID to view your timetable: ")
+    val student = schoolAPI.findStudent(studentId)
+
+    return if (student != null) {
+        val staffInfo = schoolAPI.listAllStaff()
+
+        val timetableResult = schoolAPI.generateTimetable(student, staffInfo)
+        return printCentered(timetableResult)
+    } else {
+        "Invalid ID entered"
     }
 }
+
 
 fun save() {
     try {
