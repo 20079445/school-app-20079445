@@ -496,13 +496,14 @@ fun timetable(): Any {
 
     return if (student != null) {
         val staffInfo = schoolAPI.listAllStaff()
-
         val timetableResult = schoolAPI.generateTimetable(student, staffInfo)
         return printCentered(timetableResult)
     } else {
         "Invalid ID entered"
     }
 }
+
+
 
 fun report(): Any {
     val studentId = readNextIntCentered("Enter your student ID to view your report: ")

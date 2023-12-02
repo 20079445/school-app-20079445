@@ -213,7 +213,9 @@ class SchoolAPI(serializer: JSONSerializer) {
         timetable.appendLine("|--------------------------------------------------------------------|")
 
         val timeSlots = listOf("9:15", "10:15", "11:15", "12:15", "13:15", "14:15", "15:15")
-        val staffNames = staffInfo.split(',')
+
+        // line of code i had to get online
+        val staffNames = Regex("name=([^,]+)").findAll(staffInfo).map { it.groupValues[1] }.toList()
 
         for (timeSlot in timeSlots) {
             val randomSubject = getRandomSubject()
@@ -225,6 +227,7 @@ class SchoolAPI(serializer: JSONSerializer) {
 
         return timetable.toString().trimIndent()
     }
+
 
 
     fun getRandomSubject(): String {
