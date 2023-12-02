@@ -4,14 +4,15 @@ import model.Staff
 import model.Student
 import model.Teacher
 import mu.KotlinLogging
-import persistence.XMLSerializer
+import persistence.JSONSerializer
 import utils.ScannerInput.readNextInt
 import utils.ScannerInput.readNextLine
 import java.io.File
 
 private val logger = KotlinLogging.logger {}
 
-val serializer = XMLSerializer(File("Staff.xml"), File("Student.xml"))
+//val serializer = XMLSerializer(File("Staff.xml"), File("Student.xml"), File("Grade.xml"), File("Teacher.xml"))
+val serializer = JSONSerializer(File("Staff.json"), File("Student.json"), File("Grade.json"), File("Teacher.json"))
 
 val schoolAPI = SchoolAPI(serializer)
 
@@ -38,6 +39,7 @@ fun mainMenu(): Int {
 >          |   ${ANSI_CYAN}4)   Update Details${ANSI_RESET}           |
 >          |   ${ANSI_CYAN}5)   Delete Entry${ANSI_RESET}             |
 >          |   ${ANSI_CYAN}6)   TimeTable${ANSI_RESET}                |
+>          |   ${ANSI_CYAN}7)   Report${ANSI_RESET}                   |
 > -----------------------------------
 >          |   ${ANSI_GREEN}20) Save Entries${ANSI_RESET}              |
 >          |   ${ANSI_GREEN}21) Load Entries${ANSI_RESET}              |
@@ -64,6 +66,7 @@ fun runMenu() {
             4 -> update()
             5 -> delete()
             6 -> timetable()
+            7 -> report()
             20 -> save()
             21 -> load()
             0 -> exitApp()
@@ -486,6 +489,18 @@ fun timetable(): Any {
     }
 }
 
+fun report(): Any {
+    val studentId = readNextIntCentered("Enter your student ID to view your report: ")
+    val student = schoolAPI.findStudent(studentId)
+    val grade = schoolAPI.findGrade(studentId)
+
+    return if (student != null){
+        val reportResult = schoolAPI.generateReport(student, grade)
+        return printCentered(reportResult)
+    } else {
+        "Invalid ID entered"
+    }
+}
 
 fun save() {
     try {

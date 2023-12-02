@@ -6,20 +6,26 @@ import model.Student
 import model.Teacher
 import persistence.XMLSerializer
 import mu.KotlinLogging
-import utils.Utilities
-import java.io.File
+import persistence.JSONSerializer
 
 private val logger = KotlinLogging.logger {}
 
-class SchoolAPI(serializer: XMLSerializer) {
+class SchoolAPI(serializer: JSONSerializer) {
 
     private var students = ArrayList<Student>()
     private var staffs = ArrayList<Staff>()
     private var grades = ArrayList<Grade>()
     private var teachers = ArrayList<Teacher>()
 
-    private var studentSerializer: XMLSerializer = serializer
-    private var staffSerializer: XMLSerializer = serializer
+    //private var studentSerializer: XMLSerializer = serializer
+    //private var staffSerializer: XMLSerializer = serializer
+    //private var gradeSerializer: XMLSerializer = serializer
+    //private var teacherSerializer: XMLSerializer = serializer
+
+    private var studentSerializer: JSONSerializer = serializer
+    private var staffSerializer: JSONSerializer = serializer
+    private var gradeSerializer: JSONSerializer = serializer
+    private var teacherSerializer: JSONSerializer = serializer
 
     var isAddStudentUsed = false
     var isAddStaffUsed = false
@@ -226,6 +232,36 @@ class SchoolAPI(serializer: XMLSerializer) {
         return subjects.random()
     }
 
+    fun generateReport(student: Student, grade: Grade?): String {
+        val report = StringBuilder()
+        val name = student.name
+
+        report.appendLine("---------------------------------------------------")
+        report.appendLine("|   Report card for $name                         |")
+        report.appendLine("|-------------------------------------------------|")
+        report.appendLine("|     Subject          |           Grade          |")
+        report.appendLine("|-------------------------------------------------|")
+
+        val subjects = listOf("English", "Maths", "Geography", "History", "Civics", "Irish")
+
+        for (subject in subjects) {
+            val subjectGrade = when (subject) {
+                "English" -> grade?.english?.toString() ?: "-"
+                "Maths" -> grade?.maths?.toString() ?: "-"
+                "Geography" -> grade?.geography?.toString() ?: "-"
+                "History" -> grade?.history?.toString() ?: "-"
+                "Civics" -> grade?.civics?.toString() ?: "-"
+                "Irish" -> grade?.irish?.toString() ?: "-"
+                else -> "-"
+            }
+
+            report.appendLine("|    ${subject.padEnd(20)} |         ${subjectGrade.padEnd(21)} |")
+            report.appendLine("|-------------------------------------------------|")
+        }
+
+        return report.toString().trimIndent()
+    }
+
     @Throws(Exception::class)
     fun load() {
         logger.info("Loading data...")
@@ -233,6 +269,10 @@ class SchoolAPI(serializer: XMLSerializer) {
             println("Loaded Students:\n${listAllStudents()}")
             staffs = staffSerializer.readStaff() as ArrayList<Staff>
             println("Loaded Staff:\n${listAllStaff()}")
+            grades = gradeSerializer.readGrade() as ArrayList<Grade>
+            println("Loaded Grade:\\n${listAllGrades()}\" ")
+            teachers = teacherSerializer.readTeacher() as ArrayList<Teacher>
+            println("Loaded Teacher:\\n${listAllTeachers()}\" ")
         logger.info("Data loaded successfully.")
     }
 
@@ -242,11 +282,19 @@ class SchoolAPI(serializer: XMLSerializer) {
         if (students != null) {
             studentSerializer.writeStudent(students)
         } else {
-            logger.warn("Students list is empty. Skipping storing student.xml.") }
+            logger.warn("Students list is empty. Skipping storing student.") }
         if (staffs != null) {
             staffSerializer.writeStaff(staffs)
         } else {
-            logger.warn("Staffs list is empty. Skipping storing Staff.xml.") }
+            logger.warn("Staffs list is empty. Skipping storing Staff.") }
+        if (grades != null) {
+            gradeSerializer.writeGrade(grades)
+        } else {
+            logger.warn("Grades list is empty. Skipping storing Grade.") }
+        if (teachers != null) {
+            teacherSerializer.writeTeacher(teachers)
+        } else {
+            logger.warn("Teachers list is empty. Skipping storing Teacher.") }
         logger.info("Data stored successfully.")
     }
 }

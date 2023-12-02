@@ -1,18 +1,17 @@
 package persistence
 
-import java.io.File
-import kotlin.Throws
 import com.thoughtworks.xstream.XStream
 import com.thoughtworks.xstream.io.xml.DomDriver
 import model.Grade
 import model.Staff
 import model.Student
 import model.Teacher
+import java.io.File
 import java.io.FileReader
 import java.io.FileWriter
 import java.lang.Exception
 
-class XMLSerializer(private val staffFile: File, private val studentFile: File, private val gradeFile: File, private val teacherFile: File) : Serializer<Any?> {
+class JSONSerializer(private val staffFile: File, private val studentFile: File, private val gradeFile: File, private val teacherFile: File) : Serializer<Any?>  {
 
     @Throws(Exception::class)
     override fun readStaff(): Any {
