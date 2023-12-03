@@ -6,7 +6,6 @@ import utils.ScannerInput.readNextInt
 import utils.Utilities.readNextIntWithValidation
 import utils.ValidateInput.readValidCategory
 import java.io.File
-import java.util.*
 
 private val logger = KotlinLogging.logger {}
 
