@@ -1,6 +1,7 @@
 plugins {
     kotlin("jvm") version "1.9.0"
     application
+    jacoco
 }
 
 group = "ie.setu.classes"
@@ -22,10 +23,6 @@ dependencies {
     implementation("com.googlecode.lanterna:lanterna:3.1.1")
 }
 
-tasks.test {
-    useJUnitPlatform()
-}
-
 kotlin {
     jvmToolchain(8)
 }
@@ -33,3 +30,20 @@ kotlin {
 application {
     mainClass.set("MainKt")
 }
+
+jacoco {
+    applyTo(tasks.run.get())
+}
+
+tasks.test {
+    useJUnitPlatform()
+    finalizedBy(tasks.jacocoTestReport)
+}
+
+tasks.register<JacocoReport>("applicationCodeCoverageReport") {
+    executionData(tasks.run.get())
+    sourceSets(sourceSets.main.get())
+}
+
+
+
