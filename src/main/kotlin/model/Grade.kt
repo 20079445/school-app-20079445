@@ -1,9 +1,9 @@
 package model
 
-data class Grade(var student: Int,
-                 var english: Int,
-                 var maths: Int,
-                 var geography: Int,
-                 var history: Int,
-                 var civics: Int,
-                 var irish: Int)
+data class Grade(var student: Int = 0,
+                 var english: Int = 0,
+                 var maths: Int = 0,
+                 var geography: Int = 0,
+                 var history: Int = 0,
+                 var civics: Int = 0,
+                 var irish: Int = 0)

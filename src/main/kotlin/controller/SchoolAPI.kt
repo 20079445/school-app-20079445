@@ -4,7 +4,6 @@ import model.Grade
 import model.Staff
 import model.Student
 import model.Teacher
-import persistence.XMLSerializer
 import mu.KotlinLogging
 import persistence.JSONSerializer
 
@@ -44,6 +43,7 @@ class SchoolAPI(serializer: JSONSerializer) {
         val student = students.find { it.studentId == grade.student }
         return if (student != null) {
             student.grades.add(grade)
+            add(grade, grades)
             isAddGradeUsed = true
             true
         } else {
@@ -53,6 +53,7 @@ class SchoolAPI(serializer: JSONSerializer) {
         val staff = staffs.find { it.staffId == teacher.staff }
         return if (staff != null){
             staff.teachers.add(teacher)
+            add(teacher, teachers)
             isAddTeacherUsed = true
             true
         } else {
@@ -67,7 +68,12 @@ class SchoolAPI(serializer: JSONSerializer) {
     }
     fun listAllStudents(): String = listAll(students, "Student")
     fun listAllStaff(): String = listAll(staffs, "Staff")
-    fun listAllGrades(): String = listAll(grades, "Grade")
+    fun listAllGrades(): String {
+        val gradeList = grades.joinToString("\n") { grade ->
+            "Grade for Student ID ${grade.student}: English=${grade.english}, Maths=${grade.maths}, Geography=${grade.geography}, History=${grade.history}, Civics=${grade.civics}, Irish=${grade.irish}" }
+        return if (gradeList.isNotEmpty()) {
+            gradeList } else {
+            "No Grade entries" } }
     fun listAllTeachers(): String = listAll(teachers, "Teacher")
 
 
@@ -228,8 +234,6 @@ class SchoolAPI(serializer: JSONSerializer) {
         return timetable.toString().trimIndent()
     }
 
-
-
     fun getRandomSubject(): String {
         val subjects = listOf("English", "Maths", "Geography", "History", "Civics", "Irish")
         return subjects.random()
@@ -249,12 +253,12 @@ class SchoolAPI(serializer: JSONSerializer) {
 
         for (subject in subjects) {
             val subjectGrade = when (subject) {
-                "English" -> grade?.english?.toString() ?: "-"
-                "Maths" -> grade?.maths?.toString() ?: "-"
-                "Geography" -> grade?.geography?.toString() ?: "-"
-                "History" -> grade?.history?.toString() ?: "-"
-                "Civics" -> grade?.civics?.toString() ?: "-"
-                "Irish" -> grade?.irish?.toString() ?: "-"
+                "English" -> grade?.english.toString()
+                "Maths" -> grade?.maths.toString()
+                "Geography" -> grade?.geography.toString()
+                "History" -> grade?.history.toString()
+                "Civics" -> grade?.civics.toString()
+                "Irish" -> grade?.irish.toString()
                 else -> "-"
             }
 
