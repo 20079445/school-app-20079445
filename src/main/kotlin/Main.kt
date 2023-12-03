@@ -20,27 +20,59 @@ private const val ANSI_CYAN = "\u001B[36m"
 private const val ANSI_GREEN = "\u001B[32m"
 private const val ANSI_RED = "\u001B[31m"
 
-var width = 100
+var width = 200
 
-fun main(args: Array<String>) {
+val registeredUsers = mutableListOf<User>()
 
-    val validUser = User("student1", "password123")
-    val scanner = Scanner(System.`in`)
-    print("Enter username: ")
-    val enteredUsername = scanner.nextLine()
-    print("Enter password: ")
-    val enteredPassword = scanner.nextLine()
+fun main() {
+    showWelcomeMessage()
+    val choice = readLine()?.toIntOrNull()
 
-    if (isValidCredentials(enteredUsername, enteredPassword, validUser)) {
-        println("Login successful. Welcome, ${validUser.username}!")
-        runMenu()
-    } else {
-        println("Invalid credentials. Access denied.")
+    when (choice) {
+        1 -> register()
+        2 -> login()
+        else -> println("Invalid choice. Please try again.")
     }
 }
 
-fun isValidCredentials(enteredUsername: String, enteredPassword: String, validUser: User): Boolean {
-    return enteredUsername == validUser.username && enteredPassword == validUser.password
+fun showWelcomeMessage() {
+    printCentered("=== Welcome to the App ===")
+    printCentered("1. Register")
+    printCentered("2. Login")
+    printCentered("Enter your choice: ")
+}
+
+fun register() {
+    printCentered("=== Registration ===")
+    printCentered("Enter a username: ")
+    val username = readLine().orEmpty()
+
+    printCentered("Enter a password: ")
+    val password = readLine().orEmpty()
+
+    val newUser = User(username, password)
+    registeredUsers.add(newUser)
+
+    printCentered("Registration successful!\n")
+    main()
+}
+
+fun login() {
+    printCentered("=== Login ===")
+    printCentered("Enter username: ")
+    val enteredUsername = readLine().orEmpty()
+
+    printCentered("Enter password: ")
+    val enteredPassword = readLine().orEmpty()
+
+    val isValidCredentials = registeredUsers.any { it.username == enteredUsername && it.password == enteredPassword }
+
+    if (isValidCredentials) {
+        println("Login successful!")
+        runMenu()
+    } else {
+        println("Invalid credentials. Please try again.")
+    }
 }
 
 fun mainMenu(): Int {
