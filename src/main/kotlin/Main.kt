@@ -3,6 +3,7 @@ import model.*
 import mu.KotlinLogging
 import persistence.JSONSerializer
 import utils.ScannerInput.readNextInt
+import utils.Utilities.readNextIntWithValidation
 import utils.ValidateInput.readValidCategory
 import java.io.File
 import java.util.*
@@ -289,8 +290,8 @@ fun addStaff(){
 fun addStudent(){
     val studentName = readNextLineCentered("Enter the full name of the student: ")
     val studentId = readNextIntCentered("Enter the students ID: ")
-    val studentYear = readNextIntCentered("Enter the year the student is in: ")
-    val studentClass = readNextIntCentered("Enter the class the student is in: ")
+    val studentYear = readNextIntWithValidation("Enter the year the student is in: ", 1, 6)
+    val studentClass = readNextIntWithValidation("Enter the class the student is in: ", 1, 4)
     val studentAddress = readNextLineCentered("Enter the address of the student: ")
     val studentRecord = readNextLineCentered("Enter the students records: ")
 
@@ -369,7 +370,7 @@ fun updateStaff(){
             val staffId = readNextIntCentered("Enter staff ID: ")
             val staffAddress = readNextLineCentered("Enter the staff address: ")
             val staffPhone = readNextIntCentered("Enter the staff members phone number: ")
-            val staffType = readNextLineCentered(readValidCategory("Type of staff: 1 for teacher & 0 for other: "))
+            val staffType = readValidCategory("Type of staff: 1 for teacher & 0 for other: ")
 
             if (schoolAPI.updateStaff(staffToUpdate, Staff(staffName, staffId, staffAddress, staffPhone, staffType))){
                 val successMessage = "Staff updated successfully"
@@ -388,8 +389,8 @@ fun updateStudent(){
         if (schoolAPI.isValidStudentId(studentToUpdate)){
             val studentName = readNextLineCentered("Enter the full name of the student: ")
             val studentId = readNextIntCentered("Enter the students ID: ")
-            val studentYear = readNextIntCentered("Enter the year the student is in: ")
-            val studentClass = readNextIntCentered("Enter the class the student is in: ")
+            val studentYear = readNextIntWithValidation("Enter the year the student is in: ", 1, 6)
+            val studentClass = readNextIntWithValidation("Enter the class the student is in: ", 1, 4)
             val studentAddress = readNextLineCentered("Enter the address of the student: ")
             val studentRecord = readNextLineCentered("Enter the students records: ")
 
@@ -436,11 +437,17 @@ fun updateTeacher(){
             val title = readNextLineCentered("Enter the teachers official job title: ")
             val childSafety = readNextLineCentered("Enter if this teacher is a child safety officer: ")
 
-            if (schoolAPI.updateTeacher(teacherToUpdate, Teacher(teacherId, subjectsTeaching, classroomNumber,
-                                                            classesAssigned,yearsWithTheSchool, title, childSafety))){
-                println("Teacher updated successfully")
-            } else{
-                println("Failed to update Teacher details")
+            val staff = schoolAPI.findStaff(teacherId)
+
+            if (staff != null && staff.typeOfStaff.equals("Teacher", ignoreCase = true)) {
+                if (schoolAPI.updateTeacher(teacherToUpdate, Teacher(teacherId, subjectsTeaching, classroomNumber,
+                        classesAssigned,yearsWithTheSchool, title, childSafety))){
+                    println("Teacher updated successfully")
+                } else{
+                    println("Failed to update Teacher details")
+                }
+            } else {
+                println("Invalid staff ID or staff type is not Teacher")
             }
         } } }
 
