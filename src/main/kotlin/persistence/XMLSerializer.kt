@@ -12,6 +12,15 @@ import java.io.FileReader
 import java.io.FileWriter
 import java.lang.Exception
 
+/**
+ * X m l serializer
+ *
+ * @property staffFile
+ * @property studentFile
+ * @property gradeFile
+ * @property teacherFile
+ * @constructor Create empty X m l serializer
+ */
 class XMLSerializer(private val staffFile: File, private val studentFile: File, private val gradeFile: File, private val teacherFile: File) : Serializer<Any?> {
 
     @Throws(Exception::class)

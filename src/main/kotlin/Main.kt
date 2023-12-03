@@ -23,6 +23,10 @@ var width = 200
 
 val registeredUsers = mutableListOf<User>()
 
+/**
+ * Main menu where the user can register and login
+ *
+ */
 fun main() {
     showWelcomeMessage()
     val choice = readLine()?.toIntOrNull()
@@ -34,6 +38,10 @@ fun main() {
     }
 }
 
+/**
+ * Show welcome message and menu to register and login
+ *
+ */
 fun showWelcomeMessage() {
     printCentered("=== Welcome to the App ===")
     printCentered("1. Register")
@@ -41,6 +49,10 @@ fun showWelcomeMessage() {
     printCentered("Enter your choice: ")
 }
 
+/**
+ * Register allows the user to register
+ *
+ */
 fun register() {
     printCentered("=== Registration ===")
     printCentered("Enter a username: ")
@@ -56,6 +68,10 @@ fun register() {
     main()
 }
 
+/**
+ * Login allows the user to login
+ *
+ */
 fun login() {
     printCentered("=== Login ===")
     printCentered("Enter username: ")
@@ -74,6 +90,11 @@ fun login() {
     }
 }
 
+/**
+ * Main menu for the user to use, provides many options to them from adding entries, listing, counting, updating and deleting
+ *
+ * @return
+ */
 fun mainMenu(): Int {
         val menu = """ 
          > -----------------------------------
@@ -103,6 +124,10 @@ fun mainMenu(): Int {
     return readNextInt(centeredMenu)
 }
 
+/**
+ * Run menu this is to actually run the functions when they are selected from main menu
+ *
+ */
 fun runMenu() {
     do {
         val option = mainMenu()
@@ -122,6 +147,10 @@ fun runMenu() {
     } while (true)
 }
 
+/**
+ * Add submenu for the user to then navigate to what entry they want to add
+ *
+ */
 fun add() {
     if (1 > 0) {
         val subMenu = """
@@ -153,6 +182,10 @@ fun add() {
 }
 
 
+/**
+ * List submenu to allow the user to view any lists of the entries he wants
+ *
+ */
 fun list() {
     if (1 > 0) {
         val subMenu = """
@@ -184,6 +217,10 @@ fun list() {
     }
 }
 
+/**
+ * Count submenu allows the user to count the number of entries
+ *
+ */
 fun count() {
     if (1 > 0) {
         val subMenu = """
@@ -215,6 +252,10 @@ fun count() {
     }
 }
 
+/**
+ * Update submenu allows the user to choose what entry they want to update
+ *
+ */
 fun update() {
     if (1 > 0) {
         val subMenu = """
@@ -246,6 +287,10 @@ fun update() {
     }
 }
 
+/**
+ * Delete submenu allows the navigate to the type of entry they want to delete
+ *
+ */
 fun delete() {
     if (1 > 0) {
         val subMenu = """
@@ -277,6 +322,14 @@ fun delete() {
     }
 }
 
+/**
+ * Prints the given text in a centered format based on the terminal width.
+ *
+ * This function calculates the number of spaces needed to center the text and adds
+ * them to the beginning of the text before printing it to the console.
+ *
+ * @param text The text to be displayed in a centered format.
+ */
 fun printCentered(text: String) {
     val terminalWidth = width
     val spacesNeeded = maxOf(0, (terminalWidth - text.length) / 2)
@@ -284,6 +337,15 @@ fun printCentered(text: String) {
     println(centeredText)
 }
 
+/**
+ * Reads a line of text from the user in a centered prompt.
+ *
+ * This function displays the specified prompt in a centered format using [printCentered] and
+ * reads a line of text input from the user. If the user provides no input, an empty string is returned.
+ *
+ * @param prompt The message to be displayed as the prompt.
+ * @return The line of text entered by the user or an empty string if no input is provided.
+ */
 fun readNextLineCentered(prompt: String): String {
     printCentered(prompt)
     val input = readLine() ?: ""
@@ -291,6 +353,16 @@ fun readNextLineCentered(prompt: String): String {
     return input
 }
 
+/**
+ * Reads an integer from the user in a centered prompt.
+ *
+ * This function displays the specified prompt in a centered format using [printCentered] and
+ * reads an integer input from the user. If the user enters a non-integer value or provides no
+ * input, the default value of 0 is returned.
+ *
+ * @param prompt The message to be displayed as the prompt.
+ * @return The integer entered by the user or 0 if the input is not a valid integer.
+ */
 fun readNextIntCentered(prompt: String): Int {
     printCentered(prompt)
     val input = readLine()?.toIntOrNull() ?: 0
@@ -298,6 +370,10 @@ fun readNextIntCentered(prompt: String): Int {
     return input
 }
 
+/**
+ * Add staff will add a staff entry to the staff data class
+ *
+ */
 fun addStaff(){
     val staffName = readNextLineCentered("Enter Staff name: ")
     val staffId = readNextIntCentered("Enter staff ID: ")
@@ -318,6 +394,10 @@ fun addStaff(){
     }
 }
 
+/**
+ * Add student will add a student entry to the student data class
+ *
+ */
 fun addStudent(){
     val studentName = readNextLineCentered("Enter the full name of the student: ")
     val studentId = readNextIntCentered("Enter the students ID: ")
@@ -336,6 +416,10 @@ fun addStudent(){
     }
 }
 
+/**
+ * Add grades will add a grade entry to the grade data class and the grade variable in the student data class
+ *
+ */
 fun addGrades(){
     val studentId = readNextIntCentered("Enter the ID of the student you want to assign their grades to: ")
     val English = readNextIntCentered("Enter the students grade for English: ")
@@ -356,6 +440,11 @@ fun addGrades(){
     }
 }
 
+/**
+ * Add teacher add a teacher entry to the teacher data class and to the teacher variable in the staff data class
+ * it also checks a variable in the staff data class of typeOfWork and deppending on the answer to the variable
+ * it will allow the teacher add or not.
+ */
 fun addTeacher(){
     val teacherId = readNextIntCentered("Enter the ID of the teacher: ")
     val subjectsTeaching = readNextLineCentered("Enter the subjects this teacher teaches: ")
@@ -382,16 +471,58 @@ fun addTeacher(){
     }
 }
 
+/**
+ * List staff will list the staff entries in the staff data class
+ *
+ */
 fun listStaff(){ println(schoolAPI.listAllStaff()) }
+
+/**
+ * List student will list the student entries in the student data class
+ *
+ */
 fun listStudent(){ println(schoolAPI.listAllStudents()) }
+
+/**
+ * List grade will list the grade entries in the grade data class
+ *
+ */
 fun listGrade(){ println(schoolAPI.listAllGrades()) }
+
+/**
+ * List teacher will list the teacher entries in the teacher data class
+ *
+ */
 fun listTeacher(){ print(schoolAPI.listAllTeachers()) }
 
+/**
+ * Count staff will count the number of entries in the staff data class
+ *
+ */
 fun countStaff(){ println(schoolAPI.countAllStaff()) }
+
+/**
+ * Count student will count the number of entries in the student data class
+ *
+ */
 fun countStudent(){ println(schoolAPI.countAllStudent()) }
+
+/**
+ * Count grade will count the number of entries in the grade data class
+ *
+ */
 fun countGrade(){ println(schoolAPI.countAllGrade()) }
+
+/**
+ * Count teacher will count the number of entries in the teacher data class
+ *
+ */
 fun countTeacher(){ println(schoolAPI.countAllTeacher()) }
 
+/**
+ * Update staff will allow the user to enter a staff id to then update the variable of the staff data class associated
+ * with that id entered
+ */
 fun updateStaff(){
     listStaff()
     if (schoolAPI.countAllStaff() > 0){
@@ -412,6 +543,10 @@ fun updateStaff(){
             }
         } } }
 
+/**
+ * Update student will allow the user to enter a student id to then update the variable of the student data class associated
+ *  * with that id entered
+ */
 fun updateStudent(){
     listStudent()
     if (schoolAPI.countAllStudent() > 0){
@@ -433,6 +568,10 @@ fun updateStudent(){
             }
         } } }
 
+/**
+ * Update grade will allow the user to enter a student id to then update the variable of the grade data class associated
+ *  * with that id entered
+ */
 fun updateGrade(){
     listGrade()
     if (schoolAPI.countAllGrade() > 0){
@@ -454,6 +593,10 @@ fun updateGrade(){
         }
     } } }
 
+/**
+ * Update teacher will allow the user to enter a staff id to then update the variable of the teacher data class associated
+ *  * with that id entered
+ */
 fun updateTeacher(){
     listTeacher()
     if (schoolAPI.countAllTeacher() > 0){
@@ -482,6 +625,10 @@ fun updateTeacher(){
             }
         } } }
 
+/**
+ * Delete staff will allow the user to enter a staff id and then delete that entry
+ *
+ */
 fun deleteStaff(){
     listStaff()
     if (schoolAPI.countAllStaff() > 0){
@@ -495,6 +642,10 @@ fun deleteStaff(){
         }
     } }
 
+/**
+ * Delete student will allow the user to enter a student id and then delete that entry
+ *
+ */
 fun deleteStudent(){
     listStudent()
     if (schoolAPI.countAllStudent() > 0){
@@ -508,6 +659,10 @@ fun deleteStudent(){
         }
     } }
 
+/**
+ * Delete grade will allow the user to enter a student id and then delete that entry
+ *
+ */
 fun deleteGrade(){
     listGrade()
     if (schoolAPI.countAllGrade() > 0){
@@ -521,6 +676,10 @@ fun deleteGrade(){
         }
     } }
 
+/**
+ * Delete teacher will allow the user to enter a staff id and then delete that entry
+ *
+ */
 fun deleteTeacher(){
     listTeacher()
     if (schoolAPI.countAllTeacher() > 0){
@@ -534,6 +693,17 @@ fun deleteTeacher(){
         }
     } }
 
+/**
+ * Displays the timetable for a student based on their ID.
+ *
+ * This function prompts the user to enter their student ID. It then retrieves the student's
+ * information using [schoolAPI.findStudent] and generates a timetable using
+ * [schoolAPI.generateTimetable]. The resulting timetable is printed in a centered format using
+ * [printCentered]. If the entered student ID is invalid, an error message is returned.
+ *
+ * @return A formatted timetable string if the student is found, or an error message if the student
+ * ID is invalid.
+ */
 fun timetable(): Any {
     val studentId = readNextIntCentered("Enter your student ID to view your timetable: ")
     val student = schoolAPI.findStudent(studentId)
@@ -547,6 +717,14 @@ fun timetable(): Any {
     }
 }
 
+/**
+ * Generates and displays a report for a student based on the provided student ID.
+ *
+ * This function prompts the user to enter their student ID, retrieves the corresponding
+ * student and grade information, generates a report, and displays the result in a centered format.
+ *
+ * @return Either the centered report for the student or an error message if an invalid ID is entered.
+ */
 fun report(): Any {
     val studentId = readNextIntCentered("Enter your student ID to view your report: ")
     val student = schoolAPI.findStudent(studentId)
@@ -561,6 +739,10 @@ fun report(): Any {
 }
 
 
+/**
+ * Save allows the user to save the entries into the data classes they have added
+ *
+ */
 fun save() {
     try {
         schoolAPI.store()
@@ -569,6 +751,10 @@ fun save() {
     }
 }
 
+/**
+ * Load allows the user to then load these entries next time they run the app
+ *
+ */
 fun load() {
     try {
         schoolAPI.load()
@@ -577,6 +763,10 @@ fun load() {
     }
 }
 
+/**
+ * Exit app allows the user to exit the app
+ *
+ */
 fun exitApp(){
     logger.info { "Exiting APP..." }
     System.exit(0)

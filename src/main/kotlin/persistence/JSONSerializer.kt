@@ -11,6 +11,15 @@ import java.io.FileReader
 import java.io.FileWriter
 import java.lang.Exception
 
+/**
+ * J s o n serializer
+ *
+ * @property staffFile
+ * @property studentFile
+ * @property gradeFile
+ * @property teacherFile
+ * @constructor Create empty J s o n serializer
+ */
 class JSONSerializer(private val staffFile: File, private val studentFile: File, private val gradeFile: File, private val teacherFile: File) : Serializer<Any?>  {
 
     @Throws(Exception::class)
