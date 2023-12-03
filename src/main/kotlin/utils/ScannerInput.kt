@@ -16,11 +16,4 @@ object ScannerInput {
         } while (true)
     }
 
-
-    @JvmStatic
-    fun readNextLine(prompt: String?): String {
-        print(prompt)
-        return Scanner(System.`in`).nextLine()
-    }
-
 }
