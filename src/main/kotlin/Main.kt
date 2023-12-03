@@ -3,7 +3,6 @@ import model.*
 import mu.KotlinLogging
 import persistence.JSONSerializer
 import utils.ScannerInput.readNextInt
-import utils.ScannerInput.readNextLine
 import java.io.File
 import java.util.*
 
@@ -503,8 +502,6 @@ fun timetable(): Any {
     }
 }
 
-
-
 fun report(): Any {
     val studentId = readNextIntCentered("Enter your student ID to view your report: ")
     val student = schoolAPI.findStudent(studentId)
@@ -517,6 +514,7 @@ fun report(): Any {
         "Invalid ID entered"
     }
 }
+
 
 fun save() {
     try {
