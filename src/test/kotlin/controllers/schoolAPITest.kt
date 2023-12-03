@@ -3,8 +3,10 @@ package controllers
 import model.Staff
 import model.Student
 import controller.SchoolAPI
+import model.Grade
 import org.junit.jupiter.api.*
 import org.junit.jupiter.api.Assertions.*
+import persistence.JSONSerializer
 import persistence.XMLSerializer
 import schoolAPI
 import java.io.File
@@ -17,32 +19,31 @@ class SchoolAPITest() {
     private var codeApp: Staff? = null
     private var testApp: Staff? = null
     private var swim: Staff? = null
-    private var populatedStaff: SchoolAPI? = SchoolAPI(XMLSerializer(File("Staff.xml"), File("Student.xml")))
-    private var emptyStaff: SchoolAPI? = SchoolAPI(XMLSerializer(File("Staff.xml"), File("Student.xml")))
+    private var populatedStaff: SchoolAPI? = SchoolAPI(JSONSerializer(File("Staff.json"), File("Student.json"), File("Grade.json"), File("Teacher.json")))
+    private var emptyStaff: SchoolAPI? = SchoolAPI(JSONSerializer(File("Staff.json"), File("Student.json"), File("Grade.json"), File("Teacher.json")))
 
     private var learnKotlin2: Student? = null
     private var summerHoliday2: Student? = null
     private var codeApp2: Student? = null
     private var testApp2: Student? = null
     private var swim2: Student? = null
-    private var populatedStudent: SchoolAPI? = SchoolAPI(XMLSerializer(File("Staff.xml"), File("Student.xml")))
-    private var emptyStudent: SchoolAPI? = SchoolAPI(XMLSerializer(File("Staff.xml"), File("Student.xml")))
+    private var populatedStudent: SchoolAPI? = SchoolAPI(JSONSerializer(File("Staff.json"), File("Student.json"), File("Grade.json"), File("Teacher.json")))
+    private var emptyStudent: SchoolAPI? = SchoolAPI(JSONSerializer(File("Staff.json"), File("Student.json"), File("Grade.json"), File("Teacher.json")))
 
 
     @BeforeEach
     fun setup() {
-        learnKotlin = Staff("Learning Kotlin", 5, "College", 0, 0)
-        summerHoliday = Staff("Summer Holiday to France", 1, "Holiday", 0, 0)
-        codeApp = Staff("Code App", 4, "Work", 0, 0)
-        testApp = Staff("Test App", 2, "Work", 0, 0)
-        swim = Staff("Swim - Pool", 3, "Hobby", 0, 0)
+        learnKotlin = Staff("Learning Kotlin", 5, "College", 0, "Teacher")
+        summerHoliday = Staff("Summer Holiday to France", 1, "Holiday", 0, "Other")
+        codeApp = Staff("Code App", 4, "Work", 0, "Teacher")
+        testApp = Staff("Test App", 2, "Work", 0, "Other")
+        swim = Staff("Swim - Pool", 3, "Hobby", 0, "Teacher")
 
-        learnKotlin2 = Student("name1", 1, 1, 1,"address1","record1")
-        summerHoliday2 = Student("name2",2,1,1,"address2","record2")
-        codeApp2 = Student("name3",3,1,1,"address3","record3")
-        testApp2 = Student("name4",4,1,1,"address4","record4")
-        swim2 = Student("name5",5,1,1,"address5","record5")
-
+        learnKotlin2 = Student("name1", 1, 1, 1, "address1", "record1")
+        summerHoliday2 = Student("name2", 2, 1, 1, "address2", "record2")
+        codeApp2 = Student("name3", 3, 1, 1, "address3", "record3")
+        testApp2 = Student("name4", 4, 1, 1, "address4", "record4")
+        swim2 = Student("name5", 5, 1, 1, "address5", "record5")
 
         populatedStaff!!.addStaff(learnKotlin!!)
         populatedStaff!!.addStaff(summerHoliday!!)
@@ -55,8 +56,8 @@ class SchoolAPITest() {
         populatedStudent!!.addStudent(codeApp2!!)
         populatedStudent!!.addStudent(testApp2!!)
         populatedStudent!!.addStudent(swim2!!)
-
     }
+
 
     @AfterEach
     fun tearDown() {
@@ -82,7 +83,7 @@ class SchoolAPITest() {
     inner class Add {
         @Test
         fun `adding a staff entry to a populated list adds to ArrayList`() {
-            val newStaff = Staff("Study Lambdas", 6, "College", 0, 0)
+            val newStaff = Staff("Study Lambdas", 6, "College", 0, "Other")
             assertEquals(5, populatedStaff!!.countAllStaff())
             assertTrue(populatedStaff!!.addStaff(newStaff))
             assertEquals(6, populatedStaff!!.countAllStaff())
@@ -91,7 +92,7 @@ class SchoolAPITest() {
 
         @Test
         fun `adding a staff entry to an empty list`() {
-            val newStaff = Staff("Study Lambdas", 1, "College", 0, 0)
+            val newStaff = Staff("Study Lambdas", 1, "College", 0, "Other")
             assertEquals(0, emptyStaff!!.countAllStaff())
             assertTrue(emptyStaff!!.addStaff(newStaff))
             assertEquals(1, emptyStaff!!.countAllStaff())
@@ -197,9 +198,9 @@ class SchoolAPITest() {
     inner class Update {
         @Test
         fun `updating a staff entry that does not exist returns false`(){
-            assertFalse(populatedStaff!!.updateStaff(6, Staff("Updating staff", 2, "Work", 0,0)))
-            assertFalse(populatedStaff!!.updateStaff(-1, Staff("Updating staff", 2, "Work", 0,0)))
-            assertFalse(emptyStaff!!.updateStaff(0, Staff("Updating staff", 2, "Work", 0,0)))
+            assertFalse(populatedStaff!!.updateStaff(6, Staff("Updating staff", 2, "Work", 0,"Teacher")))
+            assertFalse(populatedStaff!!.updateStaff(-1, Staff("Updating staff", 2, "Work", 0,"Other")))
+            assertFalse(emptyStaff!!.updateStaff(0, Staff("Updating staff", 2, "Work", 0,"Other")))
         }
 
         @Test
@@ -209,7 +210,7 @@ class SchoolAPITest() {
             assertEquals("Code App", populatedStaff?.findStaff(4)?.name)
             assertEquals("Work", populatedStaff?.findStaff(4)?.staffAddress)
 
-            assertTrue(populatedStaff?.updateStaff(4, Staff("Updating staff", 2, "College", 0,0))?: false)
+            assertTrue(populatedStaff?.updateStaff(4, Staff("Updating staff", 2, "College", 0,"Teacher"))?: false)
             assertEquals(1, populatedStaff?.findStaff(1)?.staffId)
             assertEquals("Summer Holiday to France", populatedStaff?.findStaff(1)?.name)
             assertEquals("Hobby", populatedStaff?.findStaff(3)?.staffAddress)
@@ -235,12 +236,14 @@ class SchoolAPITest() {
             assertEquals("address3", populatedStudent?.findStudent(3)?.address)
         }
     }
+
     @Nested
     inner class Timetable {
         @Test
         fun `generateTimetable for student with staff info`() {
             val student = Student("John Doe", 1, 1, 0, "123 Main St", "record1")
-            val staffInfo = "Teacher1, Teacher2, Teacher3, Teacher4, Teacher5"
+            val staff = Staff("name1",1,"address",1111,"Teacher")
+            val staffInfo = schoolAPI.listAllStaff()
 
             val timetable = schoolAPI.generateTimetable(student, staffInfo)
 
@@ -265,6 +268,37 @@ class SchoolAPITest() {
 
             val validSubjects = listOf("English", "Maths", "Geography", "History", "Civics", "Irish")
             assert(validSubjects.contains(subject))
+        }
+    }
+
+    @Nested
+    inner class Report {
+        @Test
+        fun `generateReport for student with grades`() {
+            val student = Student("John Doe", 1, 1, 0, "123 Main St", "record1")
+            val grade = Grade(1, 90, 85, 78, 92, 88, 95)
+
+            val report = schoolAPI.generateReport(student, grade)
+
+            assertTrue(report.contains("John Doe"))
+            assertTrue(report.contains("English"))
+            assertTrue(report.contains("90"))
+            assertTrue(report.contains("Maths"))
+            assertTrue(report.contains("85"))
+        }
+
+        @Test
+        fun `generateReport for student without grades`() {
+            val student = Student("Jane Doe", 2, 1, 0, "456 Oak St", "record2")
+            val grade = null
+
+            val report = schoolAPI.generateReport(student, grade)
+
+            assertTrue(report.contains("Jane Doe"))
+            assertTrue(report.contains("English"))
+            assertTrue(report.contains("-"))
+            assertTrue(report.contains("Maths"))
+            assertTrue(report.contains("-"))
         }
     }
 }

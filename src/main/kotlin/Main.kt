@@ -3,6 +3,7 @@ import model.*
 import mu.KotlinLogging
 import persistence.JSONSerializer
 import utils.ScannerInput.readNextInt
+import utils.ValidateInput.readValidCategory
 import java.io.File
 import java.util.*
 
@@ -270,7 +271,7 @@ fun addStaff(){
     val staffId = readNextIntCentered("Enter staff ID: ")
     val staffAddress = readNextLineCentered("Enter the staff address: ")
     val staffPhone = readNextIntCentered("Enter the staff members phone number: ")
-    val staffType = readNextIntCentered("Type of staff: 1 for teacher & 0 for other: ")
+    val staffType = readValidCategory("Type of staff: Teacher for teacher & Other for other: ")
 
     val isAdded : Boolean = schoolAPI.addStaff(Staff(staffName, staffId, staffAddress,
                                                      staffPhone, staffType))
@@ -332,14 +333,20 @@ fun addTeacher(){
     val title = readNextLineCentered("Enter the teachers official job title: ")
     val childSafety = readNextLineCentered("Enter if this teacher is a child safety officer: ")
 
-    val isAdded : Boolean = schoolAPI.addTeacher(Teacher(teacherId, subjectsTeaching, classroomNumber,
-                                                        classesAssigned, yearsWithTheSchool, title, childSafety))
+    val staff = schoolAPI.findStaff(teacherId)
 
-    if (isAdded){
-        schoolAPI.isAddTeacherUsed = true
-        println("Teacher added successfully")
-    } else{
-        println("Failed to add Teacher details")
+    if (staff != null && staff.typeOfStaff.equals("Teacher", ignoreCase = true)) {
+        val isAdded: Boolean = schoolAPI.addTeacher(
+            Teacher(teacherId, subjectsTeaching, classroomNumber, classesAssigned, yearsWithTheSchool, title, childSafety)
+        )
+        if (isAdded) {
+            schoolAPI.isAddTeacherUsed = true
+            println("Teacher added successfully")
+        } else {
+            println("Failed to add Teacher details")
+        }
+    } else {
+        println("Invalid staff ID or staff type is not Teacher")
     }
 }
 
@@ -362,7 +369,7 @@ fun updateStaff(){
             val staffId = readNextIntCentered("Enter staff ID: ")
             val staffAddress = readNextLineCentered("Enter the staff address: ")
             val staffPhone = readNextIntCentered("Enter the staff members phone number: ")
-            val staffType = readNextIntCentered("Type of staff: 1 for teacher & 0 for other: ")
+            val staffType = readNextLineCentered(readValidCategory("Type of staff: 1 for teacher & 0 for other: "))
 
             if (schoolAPI.updateStaff(staffToUpdate, Staff(staffName, staffId, staffAddress, staffPhone, staffType))){
                 val successMessage = "Staff updated successfully"
